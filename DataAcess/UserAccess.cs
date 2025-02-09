@@ -1,5 +1,6 @@
 ﻿using Entity;
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -9,8 +10,9 @@ namespace DataAccess
     {
         private static UserAccess user;
         private UserAccess() { }
-        public static UserAccess GetUserAccess() {
-            if(user == null)
+        public static UserAccess GetUserAccess()
+        {
+            if (user == null)
             {
                 user = new UserAccess();
             }
@@ -19,143 +21,183 @@ namespace DataAccess
 
 
         static string connectionString = "Server=JONATHAN_MOKHLE\\MSQLSERVER;Database=DVLD;User=sa;Password=123456";
+
         public int AddNewUser(User user)
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            string query = "insert into Users values (@PersonID,@userName,@password,@IsActive,@Role ";
-            int ok = -1;
+            const string query = "INSERT INTO Users VALUES (@PersonID, @UserName, @Password, @IsActive, @Role)";
 
-            try
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@PersonID", user.ID);
-                cmd.Parameters.AddWithValue("@userName", user.UserName);
-                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@PersonID", user.person.PersonID);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
                 cmd.Parameters.AddWithValue("@Role", user.Role);
-                ok = cmd.ExecuteNonQuery();
 
+                conn.Open();
+                return cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return ok;
         }
+
         public int DeleteUser(int id)
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            string query = "Delete from Users where [PersonID] = @PersonID";
-            int ok = -1;
+            const string query = "DELETE FROM Users WHERE PersonID = @PersonID";
 
-
-            try
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@PersonID", id);
 
-                ok = cmd.ExecuteNonQuery();
-
+                conn.Open();
+                return cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return ok;
-
         }
+
         public int UpdateUser(User user)
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            string query = "update Users set [Password] = @password, [IsActive] = @IsActive, [Role] = @Role " +
-                "where [PersonID] = @PersonID";
-            int ok = -1;
+            const string query = "UPDATE Users SET UserName = @UserName, Password = @Password, IsActive = @IsActive, Role = @Role WHERE UserID = @UserID";
 
-            try
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@PersonID", user.ID);
-                cmd.Parameters.AddWithValue("@userName", user.UserName);
-                cmd.Parameters.AddWithValue("@password", user.Password);
+                cmd.Parameters.AddWithValue("@UserID", user.UserId);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
                 cmd.Parameters.AddWithValue("@Role", user.Role);
-                ok = cmd.ExecuteNonQuery();
 
+                conn.Open();
+                return cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return ok;
         }
-    
+
+        public DataTable GetAllUsers()
+        {
+            const string query = "SELECT * FROM Users";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                var dataTable = new DataTable();
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    dataTable.Load(reader);
+                }
+                return dataTable;
+            }
+        }
+
+        public bool IsNationalNoExist(string nationalNo)
+        {
+            const string query = "SELECT COUNT(1) FROM Users INNER JOIN People ON Users.PersonID = People.PersonID WHERE People.NationalNo = @NationalNo";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@NationalNo", nationalNo);
+
+                conn.Open();
+                return (int)cmd.ExecuteScalar() > 0;
+            }
+        }
+
+        public User GetUserByID(int id)
+        {
+            const string query = @"
+            SELECT * 
+            FROM Users 
+            INNER JOIN People ON Users.PersonID = People.PersonID 
+            INNER JOIN Countries ON People.NationalityCountryID = Countries.CountryID 
+            WHERE UserID = @id ";
+
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+
+                conn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            person = new People {
+                                PersonID = (int)reader["personID"],
+                                NationalNo = (string)reader["NationalNo"],
+                                FirstName = (string)reader["FirstName"],
+                                LastName = (string)reader["LastName"],
+                                DateOfBirth = (DateTime)reader["DateOfBirth"],
+                                Gender = ((bool)reader["Gender"] == false ? 'M' : 'F'),
+                                Address = (string)reader["Address"],
+                                Phone = (string)reader["Phone"],
+                                Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"],
+                                Nationality = (string)reader["CountryName"],
+                                ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"]
+
+                            },
+                            UserName = (string)reader["UserName"],
+                            Password = (string)reader["Password"],
+                            UserId = (int)reader["UserID"],
+                            Role = (int)reader["Role"],
+                            IsActive = (bool)reader["IsActive"],
+                        };
+                    }
+                }
+            }
+
+            return new User { UserId = -1 };
+        }
         public User GetUserByUserNamePassword(string userName, string password)
         {
-            SqlConnection conn = new SqlConnection(connectionString);
-            string query = "select * from Users,People,Countries where UserName = @username and" +
-                " Password = @password and people.PersonID = Users.PersonID and " +
-                "People.NationalityCountryID = Countries.CountryID ";
-            User user = new User();
-            try
+            const string query = @"
+            SELECT *
+            FROM Users 
+            INNER JOIN People ON Users.PersonID = People.PersonID 
+            INNER JOIN Countries ON People.NationalityCountryID = Countries.CountryID 
+            WHERE UserName = @UserName AND Password = @Password";
+            int userID = -1;
+            using (var conn = new SqlConnection(connectionString))
+            using (var cmd = new SqlCommand(query, conn))
             {
+                cmd.Parameters.AddWithValue("@UserName", userName);
+                cmd.Parameters.AddWithValue("@Password", password);
+
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@username", userName);
-                cmd.Parameters.AddWithValue("@password", password);
-
-                SqlDataReader reader =  cmd.ExecuteReader();
-
-                if (reader.Read()) {
-                    user.ID = (int)reader["personID"];
-                    user.FirstName = (string)reader["FirstName"];
-                    user.LastName = (string)reader["LastName"];
-                    user.Address = (string)reader["Address"];
-                    user.Nationality = (string)reader["CountryName"];
-                    user.Email = (string)reader["Email"];
-                    user.Phone = (string)reader["Phone"];
-                    user.UserName = (string)reader["UserName"];
-                    user.Password = (string)reader["Password"];
-                    user.Role = (int)reader["Role"];
-                    user.IsActive = (bool)reader["IsActive"];
-                    user.DateOfBirth = (DateTime)reader["DateOfBirth"];
-                }
-                else
+                using (var reader = cmd.ExecuteReader())
                 {
-                    
+                    if (reader.Read())
+                    {
+                        return new User
+                        {
+                            person = new People
+                            {
+                                PersonID = (int)reader["personID"],
+                                NationalNo = (string)reader["NationalNo"],
+                                FirstName = (string)reader["FirstName"],
+                                LastName = (string)reader["LastName"],
+                                DateOfBirth = (DateTime)reader["DateOfBirth"],
+                                Gender = ((bool)reader["Gender"] == false ? 'M' : 'F'),
+                                Address = (string)reader["Address"],
+                                Phone = (string)reader["Phone"],
+                                Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"],
+                                Nationality = (string)reader["CountryName"],
+                                ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"]
+
+                            },
+                            UserName = (string)reader["UserName"],
+                            Password = (string)reader["Password"],
+                            UserId = (int)reader["UserID"],
+                            Role = (int)reader["Role"],
+                            IsActive = (bool)reader["IsActive"],
+                        };
+                    }
+
                 }
-                
-
             }
-            catch (Exception e)
-            {
-                throw e;
-
-            }
-            finally
-            {
-                conn.Close();
-            }
-            return user;
-
+            return new User { UserId = -1 };
         }
     }
-
 }

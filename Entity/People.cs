@@ -8,8 +8,9 @@ namespace Entity
 {
     public class People
     {
+        public int PersonID {  get; set; }
         public string FirstName {  get; set; }
-        public int ID {  get; set; }
+        public string NationalNo {  get; set; }
         public string LastName {  get; set; }
         public string Address {  get; set; }
         public string Nationality {  get; set; }
@@ -19,6 +20,18 @@ namespace Entity
         public DateTime DateOfBirth {  get; set; }
         public string Phone { get; set; }
 
-        public People() { }
+        public People() {
+            PersonID = -1;
+            FirstName = "???";
+            LastName = "???";
+            Address = "???";
+            NationalNo = "???";
+            Email = "???";
+            ImagePath = null;
+            Nationality = "Egypt";
+            Gender = 'M';
+            Phone = "???";
+            DateOfBirth = DateTime.Parse("1753-01-01");
+        }
     }
 }

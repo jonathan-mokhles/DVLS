@@ -21,25 +21,27 @@ namespace DVLD
         UserBuisness userBuisness = new UserBuisness();
         User user = new User();
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
-            user = userBuisness.login(textBox1.Text,textBox2.Text);
-            MessageBox.Show(user.Phone);
+            user = userBuisness.login(textBox1.Text, textBox2.Text);
+            if (user.UserId == -1)
+            {
+                this.labelError.Visible = true;
+            }
+            else if (!user.IsActive)
+            {
+                MessageBox.Show("this user is inactive");
+            }
+            else
+            {
+                GlobalSettings.CurrentUserID = user.UserId;
+                HomeForm form = new HomeForm();
+                this.Hide();
+                form.FormClosed += (s, args) => Application.Exit();
+                form.ShowDialog();
+            }
         }
 
-        private void labelUserName_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
