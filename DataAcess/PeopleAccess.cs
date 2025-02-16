@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entity;
 
-namespace DataAccess
+namespace DataAcess_DVLD_
 {
     public class PeopleAccess
     {

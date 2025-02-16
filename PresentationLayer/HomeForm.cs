@@ -66,5 +66,17 @@ namespace DVLD
             form.ShowDialog();
 
         }
+
+        private void applicationTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DrivingApplicationTypesForm _DrivingApplicationTypes = new DrivingApplicationTypesForm();
+            _DrivingApplicationTypes.ShowDialog();
+        }
+
+        private void licenseTestsTypesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DrivingApplicationTestsForm _tests = new DrivingApplicationTestsForm();
+            _tests.ShowDialog();
+        }
     }
 }

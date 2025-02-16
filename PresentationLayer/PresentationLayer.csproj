@@ -46,6 +46,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrivingApplicationTestsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrivingApplicationTestsForm.Designer.cs">
+      <DependentUpon>DrivingApplicationTestsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DrivingApplicationTypesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DrivingApplicationTypes.Designer.cs">
+      <DependentUpon>DrivingApplicationTypesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditDrivingLicenseTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDrivingLicenseTypes.Designer.cs">
+      <DependentUpon>EditDrivingLicenseTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditDrivingLicenseTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditDrivingLicenseTest.Designer.cs">
+      <DependentUpon>EditDrivingLicenseTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="HomeForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +121,21 @@
     <Compile Include="UserMangment.Designer.cs">
       <DependentUpon>UserMangment.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DrivingApplicationTestsForm.resx">
+      <DependentUpon>DrivingApplicationTestsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrivingApplicationTypes.resx">
+      <DependentUpon>DrivingApplicationTypesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DrivingApplicationTypesForm.resx">
+      <DependentUpon>DrivingApplicationTypesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDrivingLicenseTest.resx">
+      <DependentUpon>EditDrivingLicenseTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDrivingLicenseTypes.resx">
+      <DependentUpon>EditDrivingLicenseTypes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HomeForm.resx">
       <DependentUpon>HomeForm.cs</DependentUpon>
     </EmbeddedResource>

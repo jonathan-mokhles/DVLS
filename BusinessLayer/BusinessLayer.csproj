@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationTestsBuisness.cs" />
+    <Compile Include="ApplicationTypesBuisness.cs" />
     <Compile Include="CountriesBuisness.cs" />
     <Compile Include="PeopleBusiness.cs" />
     <Compile Include="UserBuisness.cs" />

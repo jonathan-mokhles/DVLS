@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace DataAccess
+namespace DataAcess_DVLD_
 {
     public class UserAccess
     {
