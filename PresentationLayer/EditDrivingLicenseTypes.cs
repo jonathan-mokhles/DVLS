@@ -9,7 +9,7 @@ namespace DVLD
     public partial class EditDrivingLicenseTypes : Form
     {
         ApplicationTypesBuisness applicationTypeBuisness = new ApplicationTypesBuisness();
-        public EditDrivingLicenseTypes(DrivingApplicationType _type)
+        public EditDrivingLicenseTypes(ApplicationTypes _type)
         {
             InitializeComponent();
             this.tbName.Text = _type.Title;
@@ -20,7 +20,7 @@ namespace DVLD
         private void button1_Click(object sender, EventArgs e)
         {
             if(
-                applicationTypeBuisness.EditApplicationType(new DrivingApplicationType
+                applicationTypeBuisness.EditApplicationType(new ApplicationTypes
                 {
                     ID = int.Parse(lblID.Text),
                     Fees = decimal.Parse(tbFees.Text),

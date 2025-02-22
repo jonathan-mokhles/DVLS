@@ -41,10 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationTestsBuisness.cs" />
+    <Compile Include="ApplicationBusiness.cs" />
+    <Compile Include="DetainedLicensesBusiness.cs" />
+    <Compile Include="InternationalLicenseBusiness.cs" />
+    <Compile Include="TestsTypesBuisness.cs" />
     <Compile Include="ApplicationTypesBuisness.cs" />
     <Compile Include="CountriesBuisness.cs" />
+    <Compile Include="DrivinglicenseClassesBuisness.cs" />
+    <Compile Include="LicenseBusiness.cs" />
+    <Compile Include="LocalLicenseApplicationBusiness.cs" />
     <Compile Include="PeopleBusiness.cs" />
+    <Compile Include="TestAppointmentBusiness.cs" />
     <Compile Include="UserBuisness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

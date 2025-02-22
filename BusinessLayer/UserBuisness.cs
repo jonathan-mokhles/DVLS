@@ -1,4 +1,4 @@
-﻿using DataAcess_DVLD_;
+﻿using DataAccess;
 using Entity;
 using System;
 using System.Data;
@@ -8,7 +8,7 @@ namespace BusinessLayer
 {
     public class UserBuisness
     {
-        UserAccess userAccess = UserAccess.GetUserAccess();
+        UserDA userAccess = UserDA.GetUserAccess();
 
        
         public DataTable GetAllUsers()

@@ -7,7 +7,7 @@
     <ProjectGuid>{7656FBB3-0E73-4B9A-A697-2ACF0B384BF6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataAcess_DVLD_</RootNamespace>
+    <RootNamespace>DataAccess</RootNamespace>
     <AssemblyName>DataAcess%28DVLD%29</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -41,11 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationTestsAccess.cs" />
-    <Compile Include="ApplicationTypesAccess.cs" />
-    <Compile Include="CountriesAccess.cs" />
-    <Compile Include="PeopleAccess.cs" />
-    <Compile Include="UserAccess.cs" />
+    <Compile Include="ApplicationDA.cs" />
+    <Compile Include="DetainedLicensesDA.cs" />
+    <Compile Include="InternationalLicenseDA.cs" />
+    <Compile Include="TestsTypesDA.cs" />
+    <Compile Include="ApplicationTypesDA.cs" />
+    <Compile Include="CountriesDA.cs" />
+    <Compile Include="DrivingLicenseClassesDA.cs" />
+    <Compile Include="LicenseDA.cs" />
+    <Compile Include="LocalLicenseApplicationDA.cs" />
+    <Compile Include="PeopleDA.cs" />
+    <Compile Include="TestAppointmentDA.cs" />
+    <Compile Include="UserDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

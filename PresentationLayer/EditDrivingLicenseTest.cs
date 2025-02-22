@@ -7,7 +7,7 @@ namespace DVLD
 {
     public partial class EditDrivingLicenseTest : Form
     {
-        public EditDrivingLicenseTest(DrivingApplicationTests test)
+        public EditDrivingLicenseTest(TestTypes test)
         {
             InitializeComponent();
             this.tbDescription.Text = test.Description;
@@ -20,8 +20,8 @@ namespace DVLD
         {
    
 
-             ApplicationTestsBuisness _tests = new ApplicationTestsBuisness();
-            bool success = _tests.EditApplicationTests(new DrivingApplicationTests
+             TestsTypesBuisness _tests = new TestsTypesBuisness();
+            bool success = _tests.EditApplicationTests(new TestTypes
             {
                 ID = Convert.ToInt32(lblID.Text),
                 Title = tbName.Text,

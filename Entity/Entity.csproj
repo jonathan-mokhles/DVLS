@@ -41,9 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrivingApplicationTests.cs" />
-    <Compile Include="DrivingApplicationType.cs" />
+    <Compile Include="Applications.cs" />
+    <Compile Include="ApplicationTypes.cs" />
+    <Compile Include="GlobalSettings.cs" />
+    <Compile Include="DrivingLicense.cs" />
+    <Compile Include="InternationalLicense.cs" />
+    <Compile Include="LicenseClass.cs" />
+    <Compile Include="LocalLicenseApplications.cs" />
     <Compile Include="People.cs" />
+    <Compile Include="TestAppointment.cs" />
+    <Compile Include="TestTypes.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

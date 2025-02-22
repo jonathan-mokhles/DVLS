@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using DataAcess_DVLD_;
+using DataAccess;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +11,7 @@ namespace BusinessLayer
     public class CountriesBuisness
     {
 
-        CountriesAccess countries = new CountriesAccess();
+        CountriesDA countries = new CountriesDA();
         public DataTable GetAllCountries()
         {
             return countries.GetCountries();

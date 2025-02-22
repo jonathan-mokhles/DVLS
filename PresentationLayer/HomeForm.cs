@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
+using DVLD.DetainLicense;
+using Entity;
 
 namespace DVLD
 {
@@ -77,6 +79,61 @@ namespace DVLD
         {
             DrivingApplicationTestsForm _tests = new DrivingApplicationTestsForm();
             _tests.ShowDialog();
+        }
+
+        private void localLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ApplicationLicenseForm form = new ApplicationLicenseForm();
+            form.SetMode(FormMode.Add);
+            form.ShowDialog();
+        }
+
+        private void localLicenseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            LocalLicenseApplicationManagment form = new LocalLicenseApplicationManagment();
+            form.ShowDialog();
+        }
+
+        private void internationalLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InternationalLicenseApplication form = new InternationalLicenseApplication();
+            form.ShowDialog();
+        }
+
+        private void internationalLicenseToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            InternationalLicenseMangmentcs form = new InternationalLicenseMangmentcs();
+            form.ShowDialog();
+        }
+
+        private void renewLicenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RenewLicense form = new RenewLicense();
+            form.ShowDialog();
+        }
+
+        private void replacementLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReplacementLicense form = new ReplacementLicense();
+            form.ShowDialog();
+        }
+
+        private void detainLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DetainLicenseForm form = new DetainLicenseForm();
+            form.ShowDialog();
+        }
+
+        private void relaseLicenseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ReleaseLicenseForm form = new ReleaseLicenseForm();
+            form.ShowDialog();
+        }
+
+        private void manageDetainApplicationsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DetainedLicensesManagment form = new DetainedLicensesManagment();
+            form.ShowDialog();
         }
     }
 }

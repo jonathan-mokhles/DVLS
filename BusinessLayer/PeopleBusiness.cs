@@ -1,5 +1,5 @@
 ﻿using System;
-using DataAcess_DVLD_;
+using DataAccess;
 using Entity;
 using System.Data;
 
@@ -7,7 +7,7 @@ namespace BusinessLayer
 {
     public class PeopleBusiness
     {
-        PeopleAccess peopleAccess = PeopleAccess.getPeopleAccess();
+        PeopleDA peopleAccess = PeopleDA.getPeopleAccess();
         
         public int AddPerson(People person)
         {

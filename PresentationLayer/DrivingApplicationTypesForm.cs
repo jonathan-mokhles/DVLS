@@ -17,11 +17,11 @@ namespace DVLD
 
         private void editTypeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EditDrivingLicenseTypes editDrinvingApplicationType = new EditDrivingLicenseTypes(new DrivingApplicationType
+            EditDrivingLicenseTypes editDrinvingApplicationType = new EditDrivingLicenseTypes(new ApplicationTypes
             {
-                ID = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["ApplicationTypeID"].Value),
-                Fees = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells["ApplicationFees"].Value),
-                Title = dataGridView1.SelectedRows[0].Cells["ApplicationTypeTitle"].Value.ToString()
+                ID = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value),
+                Fees = Convert.ToDecimal(dataGridView1.SelectedRows[0].Cells[2].Value),
+                Title = dataGridView1.SelectedRows[0].Cells[1].Value.ToString()
 
             } );
 

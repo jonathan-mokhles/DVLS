@@ -15,7 +15,7 @@ namespace DVLD
 {
     public partial class DrivingApplicationTestsForm : Form
     {
-        ApplicationTestsBuisness _test = new ApplicationTestsBuisness();
+        TestsTypesBuisness _test = new TestsTypesBuisness();
         public DrivingApplicationTestsForm()
         {
             InitializeComponent();
@@ -26,7 +26,7 @@ namespace DVLD
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
-              EditDrivingLicenseTest editForm = new EditDrivingLicenseTest(new DrivingApplicationTests
+              EditDrivingLicenseTest editForm = new EditDrivingLicenseTest(new TestTypes
                 {
                     ID = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["TestTypeID"].Value),
                     Title = dataGridView1.SelectedRows[0].Cells["TestTypeTitle"].Value.ToString(),
