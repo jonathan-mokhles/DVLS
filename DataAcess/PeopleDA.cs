@@ -9,11 +9,11 @@ using Entity;
 
 namespace DataAccess
 {
-    public struct connectionString
-    {
-        public static string Value = "Server=JONATHAN_MOKHLE\\MSQLSERVER;Database=DVLD;User=sa;Password=123456";
+    //public struct connectionString
+    //{
+    //    public static string Value = "Server=JONATHAN_MOKHLE\\MSQLSERVER;Database=DVLD;User=sa;Password=123456";
 
-    }
+    //}
 
 
     public class PeopleDA

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDA.cs" />
+    <Compile Include="connectionString.cs" />
     <Compile Include="DetainedLicensesDA.cs" />
     <Compile Include="InternationalLicenseDA.cs" />
     <Compile Include="TestsTypesDA.cs" />
