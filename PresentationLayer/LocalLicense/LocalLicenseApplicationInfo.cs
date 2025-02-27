@@ -19,8 +19,8 @@ namespace DVLD
         }
 
         public void SetApp(LocalLicenseApplications app) { 
-            this.applicationControl1.SetApplication(app.Application);
-            this.lblClass.Text = app.className;
+            this.applicationControl1.SetApplication(app);
+            this.lblClass.Text = app.Class.Name;
             this.lblId.Text = app.LocalID.ToString();
         }
 

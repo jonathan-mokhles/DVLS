@@ -13,7 +13,7 @@ namespace DataAccess
 {
     public class TestsTypesDA
     {
-        public DataTable GetAllTestTypes()
+        public static DataTable GetAllTestTypes()
         {
             DataTable dt = new DataTable();
             string query = "SELECT * FROM TestTypes";
@@ -29,7 +29,7 @@ namespace DataAccess
             return dt;
         }
 
-        public bool UpdateTestType(TestTypes test)
+        public static bool UpdateTestType(TestTypes test)
         {
             string query = "UPDATE TestTypes SET TestTypeTitle = @Title, TestTypeDescription = @Description, TestTypeFees = @Fees WHERE TestTypeID = @Id";
 
@@ -49,7 +49,7 @@ namespace DataAccess
             }
         }
 
-        public TestTypes GetTestByID( int id)
+        public static TestTypes GetTestByID( int id)
         {
             string query = "SELECT * FROM TestTypes where TestTypeID = @Id";
 

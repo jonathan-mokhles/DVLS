@@ -24,17 +24,17 @@ namespace DVLD
         private void btnLogin_Click(object sender, EventArgs e)
         {
             user = userBuisness.login(textBox1.Text, textBox2.Text);
-            if (user.UserId == -1)
+            if (user == null)
             {
-                this.labelError.Visible = true;
+                MessageBox.Show("The Username or Password is Incorrect. Try again.", "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             else if (!user.IsActive)
             {
-                MessageBox.Show("this user is inactive");
+                MessageBox.Show("this user is inactive", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {
-                GlobalSettings.CurrentUserID = user.UserId;
+                GlobalSettings.CurrentUser = user;
                 HomeForm form = new HomeForm();
                 this.Hide();
                 form.FormClosed += (s, args) => Application.Exit();
@@ -42,6 +42,9 @@ namespace DVLD
             }
         }
 
-
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

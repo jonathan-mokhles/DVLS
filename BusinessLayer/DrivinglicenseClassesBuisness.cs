@@ -10,16 +10,14 @@ namespace BusinessLayer
 {
     public class DrivinglicenseClassesBuisness
     {
-        DrivingLicenseClassesDA classes = new DrivingLicenseClassesDA();
 
-
-        public DataTable GetAllClasses()
+        public static DataTable GetAllClasses()
         {
-            return classes.GetAllClasses();
+            return DrivingLicenseClassesDA.GetAllClasses();
         }
-        public LicenseClass GetClass(int id)
+        public static LicenseClass GetClass(int id)
         {
-            return classes.GetClassByID(id);
+            return DrivingLicenseClassesDA.GetClassByID(id);
         }
     }
 }

@@ -11,19 +11,17 @@ namespace BusinessLayer
 {
     public class TestsTypesBuisness
     {
-        TestsTypesDA _applicationTestsAccess = new TestsTypesDA();
-
-        public DataTable GetAllTests()
+        public static DataTable GetAllTests()
         {
-            return _applicationTestsAccess.GetAllTestTypes();
+            return TestsTypesDA.GetAllTestTypes();
         }
-        public bool EditApplicationTests(TestTypes test)
+        public static bool EditApplicationTests(TestTypes test)
         {
-            return _applicationTestsAccess.UpdateTestType(test);
+            return TestsTypesDA.UpdateTestType(test);
         }
-        public TestTypes GetType(int id)
+        public static TestTypes GetType(int id)
         {
-            return _applicationTestsAccess.GetTestByID(id);
+            return TestsTypesDA.GetTestByID(id);
         }
     }
 }

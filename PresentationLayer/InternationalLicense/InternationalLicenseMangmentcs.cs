@@ -14,11 +14,10 @@ namespace DVLD
 {
     public partial class InternationalLicenseMangmentcs : Form
     {
-        InternationalLicenseBusiness _licenseBusines = new InternationalLicenseBusiness();
         public InternationalLicenseMangmentcs()
         {
             InitializeComponent();
-            dataGridView1.DataSource = _licenseBusines.GetLAllLicense();
+            dataGridView1.DataSource = InternationalLicenseBusiness.GetLAllLicense();
         }
 
         private void showInfoToolStripMenuItem_Click(object sender, EventArgs e)

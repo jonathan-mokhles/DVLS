@@ -7,8 +7,6 @@ namespace DVLD
 {
     public partial class PeopleMangment : Form
     {
-        private PeopleBusiness _peopleBusiness = new PeopleBusiness();
-
         public PeopleMangment()
         {
             InitializeComponent();
@@ -17,7 +15,7 @@ namespace DVLD
 
         private void LoadData()
         {
-            dataGridView1.DataSource = _peopleBusiness.GetAllPeople();
+            dataGridView1.DataSource = PeopleBusiness.GetAllPeople();
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -59,7 +57,7 @@ namespace DVLD
                 var result = MessageBox.Show("Are you sure you want to delete this person?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
-                    _peopleBusiness.DeletePerson(personId);
+                    PeopleBusiness.DeletePerson(personId);
                     LoadData();
                 }
             }

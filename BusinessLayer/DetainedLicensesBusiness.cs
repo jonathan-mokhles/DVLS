@@ -10,39 +10,35 @@ namespace BusinessLayer
 {
     public  class DetainedLicensesBusiness
     {
-        DetainedLicensesDA licensesDA = new DetainedLicensesDA();
-        ApplicationBusiness applicationBusiness = new ApplicationBusiness();
-
-        public int DetainLicense(int licenseID, DateTime detainDate, decimal fineFees, int createdByUserID)
+        public static  int DetainLicense(int licenseID, DateTime detainDate, decimal fineFees, int createdByUserID)
         {
-            return licensesDA.CreateDetainedLicense(licenseID,detainDate, fineFees, createdByUserID);
+            return DetainedLicensesDA.CreateDetainedLicense(licenseID,detainDate, fineFees, createdByUserID);
         }
         public DataTable GetAll()
         {
-            return licensesDA.GetAllDetainedLicenses();
+            return DetainedLicensesDA.GetAllDetainedLicenses();
         }
 
-        public int ReleaseLicense(int detainID, int releasedByUserID, int PersonId,decimal AppFees)
+        public static int ReleaseLicense(int detainID, int releasedByUserID, int PersonId,decimal AppFees)
         {
-            int releaseApplicationID = applicationBusiness.AddApplication(new Applications
-            {
-                PersonID = PersonId,
-                Date = DateTime.Now,
-                TypeID = 5,
-                Status = ApplicationStatus.Completed,
-                LastStatusDate = DateTime.Now,
-                PaidFees = AppFees,
-                CreatedByUserId = releasedByUserID
-            });
+            Applications app = new Applications();
+            app.person.PersonID = PersonId;
+            app.Date = DateTime.Now;
+            app.Type.ID = 5;
+            app.Status = ApplicationStatus.Completed;
+            app.LastStatusDate = DateTime.Now;
+            app.PaidFees = AppFees;
+            app.CreatedByUser.UserId = releasedByUserID;
+            int releaseApplicationID = ApplicationBusiness.AddApplication(app);
 
-            licensesDA.UpdateDetainedLicense(detainID, true, DateTime.Now, releasedByUserID,releaseApplicationID);
+            DetainedLicensesDA.UpdateDetainedLicense(detainID, true, DateTime.Now, releasedByUserID,releaseApplicationID);
 
             return releaseApplicationID;
         }
 
-        public DataRow GetInfoByLicenseID(int licenseID)
+        public static DataRow GetInfoByLicenseID(int licenseID)
         {
-            return licensesDA.GetDetainedInfoByLicenseID(licenseID);
+            return DetainedLicensesDA.GetDetainedInfoByLicenseID(licenseID);
         }
     }
 }

@@ -7,36 +7,35 @@ namespace BusinessLayer
 {
     public class PeopleBusiness
     {
-        PeopleDA peopleAccess = PeopleDA.getPeopleAccess();
-        
-        public int AddPerson(People person)
+       
+        public static int AddPerson(People person)
         {
-            return peopleAccess.AddPerson(person);
+            return PeopleDA.AddPerson(person);
         }
-        public int DeletePerson(int id)
+        public static int DeletePerson(int id)
         {
-            return peopleAccess.DeletePerson(id);
+            return PeopleDA.DeletePerson(id);
         }
-        public int UpdatePerson(People person)
+        public static int UpdatePerson(People person)
         {
-            return peopleAccess.UpdatePerson(person);
+            return PeopleDA.UpdatePerson(person);
         } 
-        public DataTable GetAllPeople()
+        public static DataTable GetAllPeople()
         {
-            return peopleAccess.GetAllPeople();
+            return PeopleDA.GetAllPeople();
         }
-        public bool isUniqueNum(string num)
+        public static bool isUniqueNum(string num)
         {
-            return peopleAccess.isUniqueNationalNo(num);
+            return PeopleDA.isUniqueNationalNo(num);
         }
-        public People GetPerson(int id) {
+        public static People GetPerson(int id) {
 
-            return peopleAccess.GetPersonByID(id);
+            return PeopleDA.GetPersonByID(id);
 
         }
-        public People GetPerson(string No) {
+        public static People GetPerson(string No) {
 
-            return peopleAccess.GetPersonByNo(No);
+            return PeopleDA.GetPersonByNo(No);
 
         }
     }

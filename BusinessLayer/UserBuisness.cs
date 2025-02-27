@@ -8,36 +8,37 @@ namespace BusinessLayer
 {
     public class UserBuisness
     {
-        UserDA userAccess = UserDA.GetUserAccess();
-
-       
-        public DataTable GetAllUsers()
+     
+        public static DataTable GetAllUsers()
         {
-            return userAccess.GetAllUsers();
+            return UserDA.GetAllUsers();
         }
         public User login(string username, string password)
         {
-            return userAccess.GetUserByUserNamePassword(username, password);
+           User user =  UserDA.GetUserByUserNamePassword(username, password);
+            return user;
         }
-        public bool isUserExist(string No)
+        public static bool isUserExist(string No)
         {
-            return userAccess.IsNationalNoExist(No);
+            return UserDA.IsNationalNoExist(No);
         }
-        public int AddUser(User user)
+        public static int AddUser(User user)
         {
-            return userAccess.AddNewUser(user);
+            return UserDA.AddNewUser(user);
         }
-        public int UpdateUser(User user)
+        public static int UpdateUser(User user)
         {
-            return userAccess.UpdateUser(user);
+            return UserDA.UpdateUser(user);
 
         }
-        public int DeleteUser(int userid)
+        public static int DeleteUser(int userid)
         {
-            return userAccess.DeleteUser(userid);
+            return UserDA.DeleteUser(userid);
         }
-        public User GetUser(int id) {
-            return userAccess.GetUserByID(id);
+        public static User GetUser(int id) {
+            User user = UserDA.GetUserByID(id);
+            user.person = PeopleBusiness.GetPerson(user.person.PersonID);
+            return user;
         }
     }
 }

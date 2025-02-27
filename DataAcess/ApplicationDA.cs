@@ -11,12 +11,12 @@ namespace DataAccess
 {
     public class ApplicationDA
     {
-        public DataTable GetAllApplications()
+        public static DataTable GetAllApplications()
         {
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
-                string query = @"SELECT * from Applications ";
+                string query = @"SELECT * from Applications order by ApplicationID desc";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -27,7 +27,7 @@ namespace DataAccess
             }
             return dt;
         }
-        public int AddApplication(Applications application)
+        public static int AddApplication(Applications application)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -38,11 +38,11 @@ namespace DataAccess
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@ApplicationPersonID", application.PersonID);
-                    command.Parameters.AddWithValue("@ApplicationTypeID", application.TypeID);
+                    command.Parameters.AddWithValue("@ApplicationPersonID", application.person.PersonID);
+                    command.Parameters.AddWithValue("@ApplicationTypeID", application.Type.ID);
                     command.Parameters.AddWithValue("@ApplicationStatus", application.Status);
                     command.Parameters.AddWithValue("@PaidFees", application.PaidFees);
-                    command.Parameters.AddWithValue("@CreatedByUserID", application.CreatedByUserId);
+                    command.Parameters.AddWithValue("@CreatedByUserID", application.CreatedByUser.UserId);
 
                     connection.Open();
                     int newID = Convert.ToInt32(command.ExecuteScalar());
@@ -50,7 +50,7 @@ namespace DataAccess
                 }
             }
         }
-        public bool UpdateApplication(int ID, ApplicationStatus Status,DateTime LastStatusDate)
+        public static bool UpdateApplication(int ID, ApplicationStatus Status,DateTime LastStatusDate)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -72,7 +72,7 @@ namespace DataAccess
                 }
             }
         }
-        public bool DeleteApplication(int applicationID)
+        public static bool DeleteApplication(int applicationID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -89,30 +89,12 @@ namespace DataAccess
             }
         }
 
-        public Applications GetApplication(int ID) {
+        public static Applications GetApplication(int ID) {
 
 
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
-                string query = @"
-SELECT
-       a.ApplicationID, 
-       a.ApplicantPersonID, 
-       p.FirstName + p.LastName as FullName, 
-       a.ApplicationDate, 
-       a.ApplicationStatus, 
-       a.LastStatusDate, 
-       a.ApplicationTypeID,
-	   at.ApplicationTypeTitle, 
-       a.PaidFees, 
-       a.CreatedByUserID,
-	   u.UserName
-FROM Applications a
-JOIN People p ON a.ApplicantPersonID = p.personID
-JOIN Users u ON a.CreatedByUserID = u.userID
-JOIN ApplicationTypes at ON a.ApplicationTypeID = at.ApplicationTypeID
-
-        WHERE a.ApplicationID = @id";
+                string query = @"SELECT * FROM Applications a WHERE a.ApplicationID = @id";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -123,20 +105,19 @@ JOIN ApplicationTypes at ON a.ApplicationTypeID = at.ApplicationTypeID
                     {
                         if (reader.Read()) 
                         {
-                            return new Applications
-                            {
-                                ID = (int)reader["ApplicationID"],
-                                PersonID = (int)reader["ApplicantPersonID"],
-                                PersonName = (string)reader["FullName"],
-                                Date = (DateTime)reader["ApplicationDate"],
-                                Status = (ApplicationStatus)Convert.ToInt32(reader["ApplicationStatus"]),
-                                LastStatusDate = (DateTime)reader["LastStatusDate"],
-                                TypeID = (int)reader["ApplicationTypeID"],
-                                TypeName = (string)reader["ApplicationTypeTitle"],
-                                PaidFees = (decimal)reader["PaidFees"],
-                                CreatedByUserId = (int)reader["CreatedByUserID"],
-                                CreatedByUserName = (String)reader["UserName"],
-                            };
+                            Applications Application = new Applications();
+
+                            Application.ID = (int)reader["ApplicationID"];
+                            Application.person.PersonID = (int)reader["ApplicantPersonID"];
+                            Application.Date = (DateTime)reader["ApplicationDate"];
+                            Application.Status = (ApplicationStatus)Convert.ToInt32(reader["ApplicationStatus"]);
+                            Application.LastStatusDate = (DateTime)reader["LastStatusDate"];
+                            Application.Type.ID = (int)reader["ApplicationTypeID"];
+                            Application.PaidFees = (decimal)reader["PaidFees"];
+                            Application.CreatedByUser.UserId = (int)reader["CreatedByUserID"];
+
+                            return Application;
+                            
 
                             };
                         }

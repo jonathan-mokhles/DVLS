@@ -15,21 +15,19 @@ namespace DVLD
     public partial class ReplacementLicense : Form
     {
         ApplicationTypes _type;
-        ApplicationTypesBuisness _typeBuisness = new ApplicationTypesBuisness();
 
         DrivingLicense _licenses = null;
-        LicenseBusiness _licenseBusiness = new LicenseBusiness();
         public ReplacementLicense()
         {
             InitializeComponent();
             this.lblDate.Text = DateTime.Now.ToString("d");
-            this.lblUser.Text = GlobalSettings.CurrentUserID.ToString();
+            this.lblUser.Text = GlobalSettings.CurrentUser.UserName;
 
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            this.licenseInfoControlcs1.LoadForm(null, Convert.ToInt32(this.textBox1.Text));
+            this.licenseInfoControlcs1.SetLicenseByID(Convert.ToInt32(this.textBox1.Text));
             _licenses = this.licenseInfoControlcs1.getLicenses();
             if (_licenses != null)
             {
@@ -40,9 +38,9 @@ namespace DVLD
         private void rbDamaged_CheckedChanged(object sender, EventArgs e)
         {
             if (rbDamaged.Checked) 
-                _type = _typeBuisness.GetType(4);
+                _type = ApplicationTypesBuisness.GetType(4);
             else
-                _type = _typeBuisness.GetType(3);
+                _type = ApplicationTypesBuisness.GetType(3);
 
             this.lblAppFees.Text = _type.Fees.ToString();
 
@@ -64,9 +62,9 @@ namespace DVLD
             {
                 int[] IDs = new int[2];
                 _licenses.IssueReason = _type.ID == 3 ? IssueReason.ReplacementForLost : IssueReason.ReplacementForDamaged;
-                _licenses.CreatedByUserID = GlobalSettings.CurrentUserID;
+                _licenses.CreatedByUser = GlobalSettings.CurrentUser;
                 _licenses.PaidFees = _type.Fees;
-                IDs = _licenseBusiness.RenewLicense(_licenses);
+                IDs = LicenseBusiness.RenewLicense(_licenses);
                 MessageBox.Show("Driving License Has Been Successfully Renewed ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _licenses.IsActive = false;
                 this.lblAppId.Text = IDs[0].ToString();

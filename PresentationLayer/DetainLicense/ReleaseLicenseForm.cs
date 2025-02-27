@@ -16,18 +16,15 @@ namespace DVLD.DetainLicense
     public partial class ReleaseLicenseForm : Form
     {
         DrivingLicense _licenses = null;
-        LicenseBusiness _licenseBusiness = new LicenseBusiness();
 
         ApplicationTypes _type;
-        ApplicationTypesBuisness _typeBuisness = new ApplicationTypesBuisness();
 
-        DetainedLicensesBusiness _DetainBusiness = new DetainedLicensesBusiness();
         public ReleaseLicenseForm()
         {
             InitializeComponent();
             this.lblDate.Text = DateTime.Now.ToString("d");
-            this.lblUser.Text = GlobalSettings.CurrentUserID.ToString();
-            _type = _typeBuisness.GetType(5);
+            this.lblUser.Text = GlobalSettings.CurrentUser.UserName;
+            _type = ApplicationTypesBuisness.GetType(5);
 
 
         }
@@ -35,7 +32,7 @@ namespace DVLD.DetainLicense
         private void btnFind_Click(object sender, EventArgs e)
         {
             this.btnRelease.Enabled = false;
-            this.licenseInfoControlcs1.LoadForm(null, Convert.ToInt32(this.textBox1.Text));
+            this.licenseInfoControlcs1.SetLicenseByID(Convert.ToInt32(this.textBox1.Text));
             _licenses = this.licenseInfoControlcs1.getLicenses();
             if (_licenses == null)
             {
@@ -48,7 +45,7 @@ namespace DVLD.DetainLicense
             }
             else
             {
-                DataRow row = _DetainBusiness.GetInfoByLicenseID(_licenses.LicenseID);
+                DataRow row = DetainedLicensesBusiness.GetInfoByLicenseID(_licenses.LicenseID);
 
                 this.lblDetainID.Text = row["DetainID"].ToString();
                 this.lblDate.Text = row["DetainDate"].ToString();
@@ -65,7 +62,7 @@ namespace DVLD.DetainLicense
   
         private void btnRelease_Click(object sender, EventArgs e)
         {
-            int ID = _DetainBusiness.ReleaseLicense(Convert.ToInt32(this.lblDetainID.Text),GlobalSettings.CurrentUserID,_licenses.PersonID,_type.Fees) ;
+            int ID = DetainedLicensesBusiness.ReleaseLicense(Convert.ToInt32(this.lblDetainID.Text),GlobalSettings.CurrentUser.UserId,_licenses.Application.person.PersonID,_type.Fees) ;
             MessageBox.Show("License Has Been Successfully Released ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             _licenses.IsDetain = false;
             this.lblAppId.Text = ID.ToString();

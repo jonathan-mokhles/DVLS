@@ -12,7 +12,7 @@ namespace DataAccess
     public class ApplicationTypesDA
     {
 
-        public DataTable GetAllApplicationTypes()
+        public static DataTable GetAllApplicationTypes()
         {
             DataTable dt = new DataTable();
             string query = "SELECT ApplicationTypeID as ID,ApplicationTypeTitle as TypeTitle, ApplicationFees as Fees" +
@@ -29,7 +29,7 @@ namespace DataAccess
             return dt;
         }
 
-        public bool UpdateApplicationType(ApplicationTypes type)
+        public static bool UpdateApplicationType(ApplicationTypes type)
         {
             string query = "UPDATE ApplicationTypes SET ApplicationTypeTitle = @Title, ApplicationFees = @Fees WHERE ApplicationTypeId = @Id";
 
@@ -48,7 +48,7 @@ namespace DataAccess
             }
         }
 
-        public ApplicationTypes GetTypeByID(int id) {
+        public static ApplicationTypes GetTypeByID(int id) {
             string query = "SELECT * FROM ApplicationTypes where ApplicationTypeID = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString.Value))

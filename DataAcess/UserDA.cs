@@ -8,21 +8,11 @@ namespace DataAccess
 {
     public class UserDA
     {
-        private static UserDA user;
-        private UserDA() { }
-        public static UserDA GetUserAccess()
-        {
-            if (user == null)
-            {
-                user = new UserDA();
-            }
-            return user;
-        }
 
-
-        public int AddNewUser(User user)
+        public static int AddNewUser(User user)
         {
-            const string query = "INSERT INTO Users VALUES (@PersonID, @UserName, @Password, @IsActive, @Role)";
+            const string query = @"INSERT INTO Users VALUES (@PersonID, @UserName, @Password, @IsActive, @Role);
+                                  SELECT SCOPE_IDENTITY();";
 
             using (var conn = new SqlConnection(connectionString.Value))
             using (var cmd = new SqlCommand(query, conn))
@@ -34,11 +24,11 @@ namespace DataAccess
                 cmd.Parameters.AddWithValue("@Role", user.Role);
 
                 conn.Open();
-                return cmd.ExecuteNonQuery();
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
-        public int DeleteUser(int id)
+        public static int DeleteUser(int id)
         {
             const string query = "DELETE FROM Users WHERE PersonID = @PersonID";
 
@@ -52,7 +42,7 @@ namespace DataAccess
             }
         }
 
-        public int UpdateUser(User user)
+        public static int UpdateUser(User user)
         {
             const string query = "UPDATE Users SET UserName = @UserName, Password = @Password, IsActive = @IsActive, Role = @Role WHERE UserID = @UserID";
 
@@ -70,7 +60,7 @@ namespace DataAccess
             }
         }
 
-        public DataTable GetAllUsers()
+        public static DataTable GetAllUsers()
         {
             const string query = "SELECT * FROM Users";
 
@@ -87,7 +77,7 @@ namespace DataAccess
             }
         }
 
-        public bool IsNationalNoExist(string nationalNo)
+        public  static bool IsNationalNoExist(string nationalNo)
         {
             const string query = "SELECT COUNT(1) FROM Users INNER JOIN People ON Users.PersonID = People.PersonID WHERE People.NationalNo = @NationalNo";
 
@@ -101,7 +91,7 @@ namespace DataAccess
             }
         }
 
-        public User GetUserByID(int id)
+        public static User GetUserByID(int id)
         {
             const string query = @"
             SELECT * 
@@ -122,19 +112,9 @@ namespace DataAccess
                     {
                         return new User
                         {
-                            person = new People {
-                                PersonID = (int)reader["personID"],
-                                NationalNo = (string)reader["NationalNo"],
-                                FirstName = (string)reader["FirstName"],
-                                LastName = (string)reader["LastName"],
-                                DateOfBirth = (DateTime)reader["DateOfBirth"],
-                                Gender = ((bool)reader["Gender"] == false ? 'M' : 'F'),
-                                Address = (string)reader["Address"],
-                                Phone = (string)reader["Phone"],
-                                Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"],
-                                Nationality = (string)reader["CountryName"],
-                                ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"]
-
+                            person = new People
+                            {
+                                PersonID = (int)reader["PersonID"]
                             },
                             UserName = (string)reader["UserName"],
                             Password = (string)reader["Password"],
@@ -148,15 +128,12 @@ namespace DataAccess
 
             return new User { UserId = -1 };
         }
-        public User GetUserByUserNamePassword(string userName, string password)
+        public static User GetUserByUserNamePassword(string userName, string password)
         {
             const string query = @"
             SELECT *
             FROM Users 
-            INNER JOIN People ON Users.PersonID = People.PersonID 
-            INNER JOIN Countries ON People.NationalityCountryID = Countries.CountryID 
             WHERE UserName = @UserName AND Password = @Password";
-            int userID = -1;
             using (var conn = new SqlConnection(connectionString.Value))
             using (var cmd = new SqlCommand(query, conn))
             {
@@ -172,20 +149,9 @@ namespace DataAccess
                         {
                             person = new People
                             {
-                                PersonID = (int)reader["personID"],
-                                NationalNo = (string)reader["NationalNo"],
-                                FirstName = (string)reader["FirstName"],
-                                LastName = (string)reader["LastName"],
-                                DateOfBirth = (DateTime)reader["DateOfBirth"],
-                                Gender = ((bool)reader["Gender"] == false ? 'M' : 'F'),
-                                Address = (string)reader["Address"],
-                                Phone = (string)reader["Phone"],
-                                Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"],
-                                Nationality = (string)reader["CountryName"],
-                                ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"]
-
+                                PersonID = (int)reader["PersonID"]
                             },
-                            UserName = (string)reader["UserName"],
+                             UserName = (string)reader["UserName"],
                             Password = (string)reader["Password"],
                             UserId = (int)reader["UserID"],
                             Role = (int)reader["Role"],
@@ -195,7 +161,7 @@ namespace DataAccess
 
                 }
             }
-            return new User { UserId = -1 };
+            return null ;
         }
     }
 }

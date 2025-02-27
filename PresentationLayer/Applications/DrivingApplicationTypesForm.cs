@@ -8,11 +8,10 @@ namespace DVLD
 {
     public partial class DrivingApplicationTypesForm : Form
     {
-        ApplicationTypesBuisness _applicationTypeBuisness = new ApplicationTypesBuisness();
         public DrivingApplicationTypesForm()
         {
             InitializeComponent();
-            this.dataGridView1.DataSource = _applicationTypeBuisness.GetAllTypes();
+            this.dataGridView1.DataSource = ApplicationTypesBuisness.GetAllTypes();
         }
 
         private void editTypeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -26,7 +25,7 @@ namespace DVLD
             } );
 
             if(editDrinvingApplicationType.ShowDialog() == DialogResult.OK)
-                this.dataGridView1.DataSource = _applicationTypeBuisness.GetAllTypes();
+                this.dataGridView1.DataSource = ApplicationTypesBuisness.GetAllTypes();
 
         }
     }

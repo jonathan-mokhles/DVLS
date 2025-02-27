@@ -18,14 +18,14 @@ namespace DVLD
         }
         public void SetApplication(Applications app)
         {
-            lblApplicat.Text = app.PersonName;
+            lblApplicat.Text = app.person.FirstName +" "+ app.person.LastName;
             lblId.Text = app.ID.ToString();
             lblDate.Text = app.Date.ToString();
             lblFees.Text = app.PaidFees.ToString();
             lblLastDate.Text = app.LastStatusDate.ToString();
             lblStatus.Text = app.Status.ToString();
-            lblType.Text = app.TypeName;
-            lblUser.Text = app.CreatedByUserName;
+            lblType.Text = app.Type.Title;
+            lblUser.Text = app.CreatedByUser.UserName;
         }
     }
 }

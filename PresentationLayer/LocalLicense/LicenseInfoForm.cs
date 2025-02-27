@@ -15,7 +15,7 @@ namespace DVLD
         public LicenseInfoForm(int id)
         {
             InitializeComponent();
-            this.licenseInfoControlcs1.LoadForm(id);
+            this.licenseInfoControlcs1.SetLicenseByAppID(id);
 
         }
     }

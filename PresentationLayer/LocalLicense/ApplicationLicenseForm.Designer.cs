@@ -46,7 +46,7 @@
             // 
             // localLicenseApplication1
             // 
-            this.localLicenseApplication1.Location = new System.Drawing.Point(12, 83);
+            this.localLicenseApplication1.Location = new System.Drawing.Point(24, 83);
             this.localLicenseApplication1.Name = "localLicenseApplication1";
             this.localLicenseApplication1.Size = new System.Drawing.Size(984, 488);
             this.localLicenseApplication1.TabIndex = 5;

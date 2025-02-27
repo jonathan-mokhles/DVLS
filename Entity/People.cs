@@ -13,7 +13,7 @@ namespace Entity
         public string NationalNo {  get; set; }
         public string LastName {  get; set; }
         public string Address {  get; set; }
-        public string Nationality {  get; set; }
+        public int NationalityID {  get; set; }
         public string Email {  get; set; }
         public string ImagePath {  get; set; }
         public char Gender {  get; set; }
@@ -28,7 +28,7 @@ namespace Entity
             NationalNo = "???";
             Email = "???";
             ImagePath = null;
-            Nationality = "Egypt";
+            NationalityID = 50;
             Gender = 'M';
             Phone = "???";
             DateOfBirth = DateTime.Parse("1753-01-01");

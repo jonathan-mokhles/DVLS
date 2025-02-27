@@ -15,7 +15,6 @@ namespace DVLD
 {
     public partial class UsersControl : System.Windows.Forms.UserControl
     {
-        private UserBuisness _UserBuisness = new UserBuisness();
         private People _person;
         private FormMode _currentMode;
         private int _currentUserId;
@@ -59,7 +58,7 @@ namespace DVLD
 
         private void LoadUser(int userId)
         {
-            var user = _UserBuisness.GetUser(userId);
+            var user = UserBuisness.GetUser(userId);
             if (user != null)
             {
                 lblUserId.Text = user.UserId.ToString();
@@ -136,22 +135,19 @@ namespace DVLD
             return user;
         }
 
-        // Save or update user data
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
-                if (_currentMode == FormMode.Add)
-                {
-                    if (_UserBuisness.AddUser(GetUserFromForm()) > 0)
-                    {
-                        MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ClearForm();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to add user.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+            int ID = UserBuisness.AddUser(GetUserFromForm());
+            if ( ID > 0)
+            {
+                MessageBox.Show("User added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.lblUserId.Text = ID.ToString();
+            }
+            else
+            {
+                MessageBox.Show("Failed to add user.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -166,7 +162,7 @@ namespace DVLD
                     var user = GetUserFromForm();
                     user.UserId = _currentUserId; 
 
-                    if (_UserBuisness.UpdateUser(user) > 0)
+                    if (UserBuisness.UpdateUser(user) > 0)
                     {
                         MessageBox.Show("User updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
@@ -186,7 +182,7 @@ namespace DVLD
                 errorProvider1.SetError(this.tbNationalNo, "Please enter a valid National No.");
                 e.Cancel = true;
             }
-            else if (_currentMode == FormMode.Add && _UserBuisness.isUserExist(_person.NationalNo))
+            else if (_currentMode == FormMode.Add && UserBuisness.isUserExist(_person.NationalNo))
             {
                 errorProvider1.SetError(this.tbNationalNo, "This person is already a user.");
                 e.Cancel = true;

@@ -10,47 +10,50 @@ namespace BusinessLayer
 {
     public class InternationalLicenseBusiness
     {
-        InternationalLicenseDA licenseDA = new InternationalLicenseDA();
-        ApplicationDA applicationDA = new ApplicationDA();
 
-        public int[] CreateLincense(InternationalLicense license,decimal fees)
+        public static int[] CreateLincense(InternationalLicense license,decimal fees)
         {
             int[] IDs = new int[2];
-            IDs[0] = applicationDA.AddApplication(new Applications
-            {
-                PersonID = license.PersonID,
-                Date = license.IssueDate,
-                TypeID = 6,
-                Status = ApplicationStatus.Completed,
-                LastStatusDate = license.IssueDate,
-                CreatedByUserId = GlobalSettings.CurrentUserID,
-                PaidFees = fees
-            });
-            license.ApplicationID = IDs[0];
-            IDs[1] = licenseDA.CreateLicense(license);
+            Applications app = new Applications();
+            app.person.PersonID = license.Application.person.PersonID;
+            app.Date = license.IssueDate;
+            app.Type.ID = 6;
+            app.Status = ApplicationStatus.Completed;
+            app.LastStatusDate = license.IssueDate;
+            app.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
+            app.PaidFees = fees;
+
+
+            IDs[0] = ApplicationBusiness.AddApplication(app);
+            license.Application.ID = IDs[0];
+            IDs[1] = InternationalLicenseDA.CreateLicense(license);
 
             return IDs;
 
         }
         public void UpdateLicense(int LicenseID, bool IsActive)
         {
-             licenseDA.UpdateLicense(LicenseID,IsActive);
+            InternationalLicenseDA.UpdateLicense(LicenseID,IsActive);
         }
-        public void DeleteLicense(int licenseId)
+        public static void DeleteLicense(int licenseId)
         {
-             licenseDA.DeleteLicense(licenseId);
+            InternationalLicenseDA.DeleteLicense(licenseId);
         }
-        public DataTable GetLicenseByID(int licenseId)
+        public static InternationalLicense GetLicenseByID(int licenseId)
         {
-            return licenseDA.GetLicenseById(licenseId);
+           InternationalLicense license =  InternationalLicenseDA.GetLicenseById(licenseId);
+            license.Application = ApplicationBusiness.GetApplicationByID(license.Application.ID);
+            license.CreatedByUser = UserBuisness.GetUser(license.CreatedByUser.UserId);
+            return license;
+
         }        
-        public DataTable GetLAllLicense()
+        public static DataTable GetLAllLicense()
         {
-            return licenseDA.GetAllLicenses();
+            return InternationalLicenseDA.GetAllLicenses();
         }        
-        public bool IsHasActiveLicense(int id)
+        public static bool IsHasActiveLicense(int id)
         {
-           return licenseDA.GetLicenseByPersonId(id);
+           return InternationalLicenseDA.IsPersonHasLicense(id);
 
 
         }

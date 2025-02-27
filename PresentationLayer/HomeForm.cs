@@ -57,14 +57,14 @@ namespace DVLD
         private void viewProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserForm form = new UserForm();
-            form.SetMode(FormMode.View, GlobalSettings.CurrentUserID);
+            form.SetMode(FormMode.View, GlobalSettings.CurrentUser.UserId);
             form.ShowDialog();
         }
 
         private void editProfileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UserForm form = new UserForm();
-            form.SetMode(FormMode.Update, GlobalSettings.CurrentUserID);
+            form.SetMode(FormMode.Update, GlobalSettings.CurrentUser.UserId);
             form.ShowDialog();
 
         }

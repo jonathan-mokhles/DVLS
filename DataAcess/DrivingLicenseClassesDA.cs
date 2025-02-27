@@ -11,7 +11,7 @@ namespace DataAccess
 {
     public class DrivingLicenseClassesDA
     {
-        public DataTable GetAllClasses()
+        public static DataTable GetAllClasses()
         {
             DataTable dt = new DataTable();
             string query = "SELECT * FROM LicenseClasses";
@@ -27,7 +27,7 @@ namespace DataAccess
             return dt;
         }
 
-        public LicenseClass GetClassByID(int ID) {
+        public static LicenseClass GetClassByID(int ID) {
             string query = "SELECT * FROM LicenseClasses where LicenseClassID = @Id";
 
             using (SqlConnection connection = new SqlConnection(connectionString.Value))

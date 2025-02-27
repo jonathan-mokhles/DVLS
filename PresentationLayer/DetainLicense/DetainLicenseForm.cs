@@ -16,21 +16,19 @@ namespace DVLD.DetainLicense
     public partial class DetainLicenseForm : Form
     {
         DrivingLicense _licenses = null;
-        LicenseBusiness _licenseBusiness = new LicenseBusiness();
 
-        DetainedLicensesBusiness _DetainBusiness = new DetainedLicensesBusiness();
         public DetainLicenseForm()
         {
             InitializeComponent();
             this.lblDate.Text = DateTime.Now.ToString("d");
-            this.lblUser.Text = GlobalSettings.CurrentUserID.ToString();
+            this.lblUser.Text = GlobalSettings.CurrentUser.UserName;
 
 
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            this.licenseInfoControlcs1.LoadForm(null, Convert.ToInt32(this.textBox1.Text));
+            this.licenseInfoControlcs1.SetLicenseByID(Convert.ToInt32(this.textBox1.Text));
             _licenses = this.licenseInfoControlcs1.getLicenses();
             if (_licenses != null)
             {
@@ -52,7 +50,7 @@ namespace DVLD.DetainLicense
             }
             else
             {
-                int ID = _DetainBusiness.DetainLicense(_licenses.LicenseID,DateTime.Now,Convert.ToInt32(this.tbFees.Text),GlobalSettings.CurrentUserID) ;
+                int ID = DetainedLicensesBusiness.DetainLicense(_licenses.LicenseID,DateTime.Now,Convert.ToInt32(this.tbFees.Text),GlobalSettings.CurrentUser.UserId) ;
                 MessageBox.Show("License Has Been Successfully Detained ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _licenses.IsDetain = true;
                 this.lblAppId.Text = ID.ToString();

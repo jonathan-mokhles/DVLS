@@ -15,39 +15,32 @@ namespace DVLD
 {
     public partial class RenewLicense : Form
     {
-        ApplicationTypes _type;
-        ApplicationTypesBuisness _typeBuisness = new ApplicationTypesBuisness();
-
         DrivingLicense _licenses = null;
-        LicenseBusiness _licenseBusiness = new LicenseBusiness();
 
-        LicenseClass _Class = new LicenseClass();
-        DrivinglicenseClassesBuisness _ClassesBuisness = new DrivinglicenseClassesBuisness();
 
 
 
         public RenewLicense()
         {
-            _type = _typeBuisness.GetType(2);
             InitializeComponent();
 
             this.lblDate.Text = DateTime.Now.ToString("d");
             this.lblIssue.Text = DateTime.Now.ToString("d");
-            this.lblUser.Text = GlobalSettings.CurrentUserID.ToString();
-            this.lblAppFees.Text = _type.Fees.ToString();
+            this.lblUser.Text = GlobalSettings.CurrentUser.UserName;
         }
 
         private void btnFind_Click(object sender, EventArgs e)
         {
-            this.licenseInfoControlcs1.LoadForm(null, Convert.ToInt32(this.textBox1.Text));
+            this.licenseInfoControlcs1.SetLicenseByID(Convert.ToInt32(this.textBox1.Text));
             _licenses = this.licenseInfoControlcs1.getLicenses();
             if (_licenses != null)
             {
-                _Class = _ClassesBuisness.GetClass(_licenses.LicenseClassID);
-                this.lblExpireDate.Text = DateTime.Now.AddYears(_Class.DefaultValidityLength).ToString("d");
-                this.lblFees.Text = _Class.Fees.ToString();
+                this.lblExpireDate.Text = DateTime.Now.AddYears(_licenses.Class.DefaultValidityLength).ToString("d");
+                this.lblFees.Text = _licenses.Class.Fees.ToString();
                 this.lblOldID.Text = _licenses.LicenseID.ToString();
-                this.lblTfees.Text = (_Class.Fees + _type.Fees).ToString();
+                this.lblAppFees.Text = _licenses.Application.Type.Fees.ToString();
+
+                this.lblTfees.Text = (_licenses.Class.Fees + _licenses.Application.Type.Fees).ToString();
             }
         }
 
@@ -70,20 +63,19 @@ namespace DVLD
             {
                 int[] IDs = new int[2];
 
-                IDs = _licenseBusiness.RenewLicense (new DrivingLicense
-                {
-                    LicenseID = _licenses.LicenseID,
-                    PersonID = _licenses.PersonID,
-                    LicenseClassID = _licenses.LicenseClassID,
-                    IssueDate = DateTime.Now,
-                    ExpirationDate = DateTime.Now.AddYears(_Class.DefaultValidityLength),
-                    Notes = null,
-                    PaidFees = _Class.Fees + _type.Fees,
-                    IsActive = true,
-                    IssueReason = IssueReason.Renew,
-                    CreatedByUserID = GlobalSettings.CurrentUserID
+                DrivingLicense license = new DrivingLicense();
+                license.LicenseID = _licenses.LicenseID;
+                license.Application.person.PersonID = _licenses.Application.person.PersonID;
+                license.Class.ID = _licenses.Class.ID;
+                license.IssueDate = DateTime.Now;
+                license.ExpirationDate = DateTime.Now.AddYears(_licenses.Class.DefaultValidityLength);
+                license.Notes = null;
+                license.PaidFees = _licenses.Class.Fees + _licenses.Application.Type.Fees;
+                license.IsActive = true;
+                license.IssueReason = IssueReason.Renew;
+                license.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
 
-                });
+                IDs = LicenseBusiness.RenewLicense(license);
                 MessageBox.Show("Driving License Has Been Successfully Renewed ", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 _licenses.IsActive = false;
                 this.lblAppId.Text = IDs[0].ToString();

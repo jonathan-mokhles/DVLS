@@ -15,11 +15,10 @@ namespace DVLD
 {
     public partial class DrivingApplicationTestsForm : Form
     {
-        TestsTypesBuisness _test = new TestsTypesBuisness();
         public DrivingApplicationTestsForm()
         {
             InitializeComponent();
-            dataGridView1.DataSource = _test.GetAllTests();
+            dataGridView1.DataSource = TestsTypesBuisness.GetAllTests();
         }
 
         private void editTestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,7 +36,7 @@ namespace DVLD
 
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
-                    dataGridView1.DataSource = _test.GetAllTests();
+                    dataGridView1.DataSource = TestsTypesBuisness.GetAllTests();
                 }
             }
         }

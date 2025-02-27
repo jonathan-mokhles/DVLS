@@ -46,7 +46,7 @@
             this.title.Text = "Add new preson";
             // 
             // userControl1
-            // 
+            //// 
             this.userControl1.Location = new System.Drawing.Point(12, 23);
             this.userControl1.Name = "userControl1";
             this.userControl1.Size = new System.Drawing.Size(984, 481);
@@ -56,7 +56,7 @@
             // 
             this.ClientSize = new System.Drawing.Size(1014, 516);
             this.Controls.Add(this.title);
-            this.Controls.Add(this.userControl1);
+            //this.Controls.Add(this.userControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UserForm";
             this.ResumeLayout(false);

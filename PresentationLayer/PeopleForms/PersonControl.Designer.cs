@@ -49,8 +49,7 @@
             this.RBFemale = new System.Windows.Forms.RadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dtDateOfBirth = new System.Windows.Forms.DateTimePicker();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.lblID = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -241,33 +240,18 @@
             this.dtDateOfBirth.TabIndex = 22;
             this.dtDateOfBirth.Value = new System.DateTime(2025, 1, 26, 22, 18, 24, 0);
             // 
-            // btnAdd
+            // btnSave
             // 
-            this.btnAdd.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAdd.Location = new System.Drawing.Point(655, 302);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(105, 35);
-            this.btnAdd.TabIndex = 23;
-            this.btnAdd.Text = "Save";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Visible = false;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.BackColor = System.Drawing.Color.SkyBlue;
-            this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUpdate.Location = new System.Drawing.Point(655, 301);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(105, 35);
-            this.btnUpdate.TabIndex = 24;
-            this.btnUpdate.Text = "Save";
-            this.btnUpdate.UseVisualStyleBackColor = false;
-            this.btnUpdate.Visible = false;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.btnSave.BackColor = System.Drawing.Color.SkyBlue;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSave.Location = new System.Drawing.Point(655, 302);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(105, 35);
+            this.btnSave.TabIndex = 23;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // errorProvider1
             // 
@@ -326,8 +310,7 @@
             this.Controls.Add(this.lblPicture);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lblID);
-            this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.btnAdd);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.dtDateOfBirth);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.RBFemale);
@@ -378,8 +361,7 @@
         private System.Windows.Forms.RadioButton RBFemale;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DateTimePicker dtDateOfBirth;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblID;

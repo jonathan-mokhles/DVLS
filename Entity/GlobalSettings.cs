@@ -35,7 +35,7 @@ namespace Entity
     }
     public class GlobalSettings
     {
-        public static int CurrentUserID = 1032;
+        public static User CurrentUser;
     }
 
 }

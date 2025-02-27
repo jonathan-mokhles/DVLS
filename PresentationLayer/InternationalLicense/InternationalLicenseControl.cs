@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,40 +15,37 @@ namespace DVLD
 {
     public partial class InternationalLicenseControl : UserControl
     {
-        InternationalLicenseBusiness _licenseBusiness = new InternationalLicenseBusiness();
-        DataTable table = new DataTable();
-
+        InternationalLicense license = new InternationalLicense();
         public InternationalLicenseControl()
         {
             InitializeComponent();
         }
         public void LoadForm(int licenseID )
         {
-            table = _licenseBusiness.GetLicenseByID(licenseID);
-            if (table != null)
+            license = InternationalLicenseBusiness.GetLicenseByID(licenseID);
+            if (license != null)
             {
-                DataRow row = table.Rows[0];
 
-                this.lblName.Text = row["FullName"].ToString();
-                this.lblLicenseId.Text = row["InternationalLicenseID"].ToString();
-                this.lbllocalID.Text = row["IssuedUsingLocalLicenseID"].ToString();
-                this.lblNational.Text = row["NationalNo"].ToString();
-                this.lblGender.Text = row["Gender"].ToString();
-                this.lblIssueDate.Text = ((DateTime)row["IssueDate"]).ToString("MM/dd/yyyy");
-                this.lblExpiryDate.Text = ((DateTime)row["ExpirationDate"]).ToString("MM/dd/yyyy");
-                this.lblAppid.Text = row["ApplicationID"].ToString();
-                this.lblIsActive.Text = row["IsActive"].ToString();
-                this.lblDateOfBirth.Text = ((DateTime)row["DateOfBirth"]).ToString("MM/dd/yyyy");
+                this.lblName.Text = license.Application.person.FirstName + " " + license.Application.person.LastName;
+                this.lblLicenseId.Text = license.InternationalLicenseID.ToString();
+                this.lbllocalID.Text = license.IssuedUsingLocalLicenseID.ToString();
+                this.lblNational.Text = license.Application.person.NationalNo;
+                this.lblGender.Text = license.Application.person.Gender.ToString();
+                this.lblIssueDate.Text = license.IssueDate.ToString("d");
+                this.lblExpiryDate.Text = license.ExpirationDate.ToString("d");
+                this.lblAppid.Text = license.Application.ID.ToString();
+                this.lblIsActive.Text = license.IsActive.ToString();
+               this.lblDateOfBirth.Text = license.Application.person.DateOfBirth.ToString("d");
 
-                if (string.IsNullOrEmpty(row["ImagePath"].ToString()))
+                if (string.IsNullOrEmpty(license.Application.person.ImagePath))
                 {
-                    if (lblGender.Text == "Male")
+                    if (lblGender.Text == "M")
                         pictureBox1.Image = Properties.Resources.male;
                     else
                         pictureBox1.Image = Properties.Resources.female;
                 }
                 else
-                    pictureBox1.ImageLocation = row["ImagePath"].ToString();
+                    pictureBox1.ImageLocation = license.Application.person.ImagePath;
             }
         }
 

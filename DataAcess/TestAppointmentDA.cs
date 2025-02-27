@@ -10,7 +10,7 @@ namespace DataAccess
 {
     public class TestAppointmentDA
     {
-        public int InsertTestAppointment(TestAppointment appointment)
+        public static int InsertTestAppointment(TestAppointment appointment)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -47,7 +47,7 @@ namespace DataAccess
             }
         }
 
-        public void UpdateTestAppointment(TestAppointment appointment)
+        public static void UpdateTestAppointment(TestAppointment appointment)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -75,7 +75,7 @@ namespace DataAccess
             }
         }
 
-        public void DeleteTestAppointment(int testAppointmentID)
+        public static void DeleteTestAppointment(int testAppointmentID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -91,7 +91,7 @@ namespace DataAccess
             }
         }
 
-        public TestAppointment GetTestAppointmentByID(int testAppointmentID)
+        public static TestAppointment GetTestAppointmentByID(int testAppointmentID)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -128,7 +128,7 @@ namespace DataAccess
             }
         }
 
-        public DataTable GetAllTestAppointments(int typeId, int appId)
+        public static DataTable GetAllTestAppointments(int typeId, int appId)
         {
             DataTable table = new DataTable();
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
@@ -143,7 +143,8 @@ namespace DataAccess
                     WHEN TestResult = 1 THEN 'Passed'      
                 END as Status,
 				Notes
-                FROM TestAppointments where TestTypeID = @type and LocalDrivingLicenseApplicationID = @app;";
+                FROM TestAppointments where TestTypeID = @type and LocalDrivingLicenseApplicationID = @app
+                order by AppointmentId desc ;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {

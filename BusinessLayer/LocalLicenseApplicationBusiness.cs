@@ -9,36 +9,38 @@ namespace BusinessLayer
 {
     public class LocalLicenseApplicationBusiness
     {
-        LocalLicenseApplicationDA localApp = new LocalLicenseApplicationDA();
-        public ApplicationBusiness AppBusiness = new ApplicationBusiness();
-       public DataTable GetAll()
+       public static DataTable GetAll()
         {
-            return localApp.GetAllLocalDrivingLicenseApplications();
+            return LocalLicenseApplicationDA.GetAllLocalDrivingLicenseApplications();
         } 
 
-        public int AddApp(LocalLicenseApplications app)
+        public  static int AddApp(LocalLicenseApplications app)
         {
-             int id = AppBusiness.AddApplication(app.Application);
-            localApp.AddLocalDrivingLicenseApplication(app.classID,id);
+             int id = ApplicationBusiness.AddApplication(app);
+            LocalLicenseApplicationDA.AddLocalDrivingLicenseApplication(app.Class.ID,id);
             return id;
         }
-        public bool UpdateApp(LocalLicenseApplications app)
+        public static bool UpdateApp(LocalLicenseApplications app)
         {
-            return AppBusiness.UpdateApplication(app.Application.ID,app.Application.Status, app.Application.LastStatusDate) && localApp.UpdateLocalDrivingLicenseApplication(app.LocalID,app.classID);
+            return ApplicationBusiness.UpdateApplication(app.ID,app.Status, app.LastStatusDate) && LocalLicenseApplicationDA.UpdateLocalDrivingLicenseApplication(app.LocalID,app.Class.ID);
         }
-        public bool DeleteApp(int ID)
+        public static bool DeleteApp(int ID)
         {
-            int id = localApp.GetApp(ID).Application.ID;
-            return localApp.DeleteLocalDrivingLicenseApplication(ID) && AppBusiness.DeleteApplication(id);
+            int id = LocalLicenseApplicationDA.GetApp(ID).ID;
+            return LocalLicenseApplicationDA.DeleteLocalDrivingLicenseApplication(ID) && ApplicationBusiness.DeleteApplication(id);
 
         }
-        public bool IsPersonHaveApp(int personid, int classid)
+        public static bool IsPersonHaveApp(int personid, int classid)
         {
-            return localApp.IsPersonHaveApplication(personid, classid);
+            return LocalLicenseApplicationDA.IsPersonHaveApplication(personid, classid);
         }
-        public LocalLicenseApplications GetLocalApplication(int id)
+        public static LocalLicenseApplications GetLocalApplication(int id)
         {
-            return localApp.GetApp(id);
+            LocalLicenseApplications app = LocalLicenseApplicationDA.GetApp(id);
+            app.setApp(ApplicationBusiness.GetApplicationByID(app.ID));
+            app.Class = DrivinglicenseClassesBuisness.GetClass(app.Class.ID);
+            return app;
+
         }
     }
 }

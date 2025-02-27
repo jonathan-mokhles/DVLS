@@ -19,15 +19,12 @@ namespace DVLD
         bool hasInProgress;
         bool hasPassed;
 
-        TestsTypesBuisness tests = new TestsTypesBuisness();
-        LocalLicenseApplicationBusiness LocalBusiness = new LocalLicenseApplicationBusiness();
-
         public TestApointmentForm(int testid, int appID)
         {
             InitializeComponent();
 
-            TestType = tests.GetType(testid);
-            applications = LocalBusiness.GetLocalApplication(appID);
+            TestType = TestsTypesBuisness.GetType(testid);
+            applications = LocalLicenseApplicationBusiness.GetLocalApplication(appID);
 
             this.localLicenseApplicationInfo1.SetApp(applications);
             loadForm();
@@ -41,17 +38,17 @@ namespace DVLD
             if (TestType.ID == 1)
             {
                 pictureBox2.Image = Properties.Resources.VisionTest;
-                dataGridView1.DataSource = test.GetTestAppointments(TestType.ID, applications.LocalID);
+                dataGridView1.DataSource = TestAppointmentBusiness.GetTestAppointments(TestType.ID, applications.LocalID);
             }
             else if (TestType.ID == 2)
             {
                 pictureBox2.Image = Properties.Resources.WrittenTest;
-                dataGridView1.DataSource = test.GetTestAppointments(TestType.ID, applications.LocalID);
+                dataGridView1.DataSource = TestAppointmentBusiness.GetTestAppointments(TestType.ID, applications.LocalID);
             }
             else if (TestType.ID == 3)
             {
                 pictureBox2.Image = Properties.Resources.DrivingTest;
-                dataGridView1.DataSource = test.GetTestAppointments(TestType.ID, applications.LocalID);
+                dataGridView1.DataSource = TestAppointmentBusiness.GetTestAppointments(TestType.ID, applications.LocalID);
             }
              hasInProgress = dataGridView1.Rows.Cast<DataGridViewRow>()
             .Any(row => row.Cells["Status"].Value.ToString() == "InProgress");

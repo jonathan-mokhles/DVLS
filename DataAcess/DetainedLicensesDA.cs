@@ -10,7 +10,7 @@ namespace DataAccess
 {
     public class DetainedLicensesDA
     {
-        public int CreateDetainedLicense(int licenseID, DateTime detainDate, decimal fineFees, int createdByUserID)
+        public static int CreateDetainedLicense(int licenseID, DateTime detainDate, decimal fineFees, int createdByUserID)
         {
             using (SqlConnection conn = new SqlConnection(connectionString.Value))
             {
@@ -29,7 +29,7 @@ namespace DataAccess
             }
         }
 
-        public DataTable GetAllDetainedLicenses()
+        public static DataTable GetAllDetainedLicenses()
         {
             using (SqlConnection conn = new SqlConnection(connectionString.Value))
             {
@@ -41,7 +41,7 @@ namespace DataAccess
             }
         }
 
-        public void UpdateDetainedLicense(int detainID, bool isReleased, DateTime releaseDate, int releasedByUserID, int releaseApplicationID)
+        public static void UpdateDetainedLicense(int detainID, bool isReleased, DateTime releaseDate, int releasedByUserID, int releaseApplicationID)
         {
             using (SqlConnection conn = new SqlConnection(connectionString.Value))
             {
@@ -58,7 +58,7 @@ namespace DataAccess
             }
         }
 
-        public DataRow GetDetainedInfoByLicenseID(int LicenseID)
+        public static DataRow GetDetainedInfoByLicenseID(int LicenseID)
         {
             using (SqlConnection conn = new SqlConnection(connectionString.Value))
             {
@@ -73,5 +73,19 @@ namespace DataAccess
                 return dt.Rows.Count > 0 ? dt.Rows[0] : null;
             }
         }
+
+        public static bool isLicenseDetained(int LicenseID)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString.Value))
+            {
+                string query = "SELECT 1 FROM DetainedLicenses WHERE LicenseID = @LicenseID and IsReleased = 0";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@LicenseID", LicenseID);
+
+
+                return (int)cmd.ExecuteScalar() == 1;
+            }
+        }
+
     }
 }

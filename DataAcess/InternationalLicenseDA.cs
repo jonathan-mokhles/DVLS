@@ -13,7 +13,7 @@ namespace DataAccess
 {
     public class InternationalLicenseDA
     {
-        public int CreateLicense(InternationalLicense license)
+        public static int CreateLicense(InternationalLicense license)
         {
             using (var connection = new SqlConnection(connectionString.Value))
             {
@@ -28,18 +28,18 @@ namespace DataAccess
 
                 using (var command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@ApplicationID", license.ApplicationID);
-                    command.Parameters.AddWithValue("@PersonID", license.PersonID);
+                    command.Parameters.AddWithValue("@ApplicationID", license.Application.ID);
+                    command.Parameters.AddWithValue("@PersonID", license.Application.person.PersonID);
                     command.Parameters.AddWithValue("@IssuedUsingLocalLicenseID", license.IssuedUsingLocalLicenseID);
                     command.Parameters.AddWithValue("@IssueDate", license.IssueDate);
                     command.Parameters.AddWithValue("@ExpirationDate", license.ExpirationDate);
                     command.Parameters.AddWithValue("@IsActive", license.IsActive);
-                    command.Parameters.AddWithValue("@CreatedByUserID", license.CreatedByUserID);
+                    command.Parameters.AddWithValue("@CreatedByUserID", license.CreatedByUser.UserId);
                     return Convert.ToInt32(command.ExecuteScalar());
                 }
             }
         }
-        public void UpdateLicense(int InternationalLicenseID,bool IsActive)
+        public static void UpdateLicense(int InternationalLicenseID,bool IsActive)
         {
             using (var connection = new SqlConnection(connectionString.Value))
             {
@@ -60,7 +60,7 @@ namespace DataAccess
             }
         }
 
-        public void DeleteLicense(int licenseId)
+        public static void DeleteLicense(int licenseId)
         {
             using (var connection = new SqlConnection(connectionString.Value))
             {
@@ -76,7 +76,7 @@ namespace DataAccess
             }
         }
 
-        public bool GetLicenseByPersonId(int PersonId)
+        public static bool IsPersonHasLicense(int PersonId)
         {
             using (var connection = new SqlConnection(connectionString.Value))
             {
@@ -91,45 +91,40 @@ namespace DataAccess
                 }
             }
         }
-        public DataTable GetLicenseById(int licenseId)
+        public static InternationalLicense GetLicenseById(int licenseId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
-                string query = @"SELECT 
-               l.InternationalLicenseID,
-               l.ApplicationID,
-			   l.IssuedUsingLocalLicenseID,
-               l.IssueDate,
-               l.ExpirationDate,
-               l.IsActive,
-			   p.FirstName +' '+ p.LastName as FullName, 
-			   p.NationalNo,
-               CASE WHEN p.Gender = 0 THEN 'Male'
-                    WHEN p.Gender = 1 THEN 'Female' 
-               END AS Gender,
-               p.DateOfBirth,
-               p.ImagePath
-        FROM InternationalLicenses l
-        JOIN Applications a ON l.ApplicationID = a.ApplicationID
-        JOIN People p ON a.ApplicantPersonID = p.PersonID
-        WHERE l.InternationalLicenseID  = @LicenseID;";
+                string query = @"SELECT *
+                     FROM InternationalLicenses l
+                     WHERE l.InternationalLicenseID  = @LicenseID;";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
 
                     command.Parameters.AddWithValue("@LicenseID", licenseId);
 
-                    DataTable table = new DataTable();
                     connection.Open();
+                        InternationalLicense license = new InternationalLicense();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        table.Load(reader);
+                        if (reader.Read())
+                        {
+                            license.InternationalLicenseID = (int)reader["InternationalLicenseID"];
+                            license.Application.ID = (int)reader["ApplicationID"];
+                            license.Application.person.PersonID = (int)reader["PersonID"];
+                            license.IssuedUsingLocalLicenseID = (int)reader["IssuedUsingLocalLicenseID"];
+                            license.IssueDate = (DateTime)reader["IssueDate"];
+                            license.ExpirationDate = (DateTime)reader["ExpirationDate"];
+                            license.IsActive = (bool)reader["IsActive"];
+                            license.CreatedByUser.UserId = (int)reader["CreatedByUserID"];
+                        }
                     }
-                    return table;
+                    return license;
                 }
             }
         }
-        public DataTable GetAllLicenses()
+        public static DataTable GetAllLicenses()
         {
             DataTable table = new DataTable();
 

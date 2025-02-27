@@ -18,7 +18,7 @@ namespace DVLD
         {
             InitializeComponent();
         }
-        public void SetMode(FormMode mode, int personId = -1)
+        public void SetMode(FormMode mode, int appID = -1)
         {
             _mode = mode;
 
@@ -26,7 +26,7 @@ namespace DVLD
             {
                 case FormMode.View:
                     this.title.Text = "local Driving license application";
-                    this.localLicenseApplication1.SetViewMode(personId);
+                    this.localLicenseApplication1.SetViewMode(appID);
                     break;
                 case FormMode.Add:
                     this.title.Text = "New local Driving license application";
@@ -34,7 +34,7 @@ namespace DVLD
                     break;
                 case FormMode.Update:
                     this.title.Text = "Update local Driving license application";
-                    this.localLicenseApplication1.SetUpdateMode(personId);
+                    this.localLicenseApplication1.SetUpdateMode(appID);
                     break;
             }
         }

@@ -15,7 +15,7 @@ namespace Entity
         public int Role {  get; set; }
         public bool IsActive {  get; set; }
 
-        public User() { }
+        public User() { person = new People(); }
         public User(People person)
         {
             this.person = person;

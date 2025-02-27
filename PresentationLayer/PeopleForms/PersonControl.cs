@@ -8,18 +8,19 @@ using System.IO;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 
 namespace DVLD
 {
     public partial class PersonControl : System.Windows.Forms.UserControl
     {
-        private PeopleBusiness _peopleBusiness = new PeopleBusiness();
-
+        People _person = new People();
+        FormMode _mode;
         public PersonControl()
         {
             InitializeComponent();
             LoadCountries();
-            LoadDate();
+            _LoadDate();
         }
 
         private void LoadCountries()
@@ -31,7 +32,7 @@ namespace DVLD
             ComboxContries.SelectedValue = 51;
         }
 
-        private void LoadDate()
+        private void _LoadDate()
         {
             dtDateOfBirth.Format = DateTimePickerFormat.Custom;
             dtDateOfBirth.CustomFormat = "dd/MM/yyyy";
@@ -40,28 +41,25 @@ namespace DVLD
 
         public int SetViewMode(int personId)
         {
-            People person = _peopleBusiness.GetPerson(personId);
-            LoadPerson(person);
+            _person = PeopleBusiness.GetPerson(personId);
+            LoadPerson();
             SetControlsEnabled(false);
-            btnUpdate.Visible = false;
-            btnAdd.Visible = false;
-            return person.PersonID;
+            btnSave.Visible = false;
+            _mode = FormMode.View;
+            return personId;
         }
-        public int SetViewMode(string personNo)
+        public void SetViewMode(string personNo)
         {
-            People person;
             if (personNo != null)
-                person = _peopleBusiness.GetPerson(personNo);
-            else
-                person = new People();
-           
+                _person = PeopleBusiness.GetPerson(personNo);
 
-            LoadPerson(person);
+
+            if (personNo != null)
+                LoadPerson();
+            
             SetControlsEnabled(false);
-            btnUpdate.Visible = false;
-            btnAdd.Visible = false;
-
-            return person.PersonID;
+            btnSave.Visible = false;
+            _mode = FormMode.View;
 
         }
 
@@ -69,35 +67,34 @@ namespace DVLD
         {
             ClearForm();
             SetControlsEnabled(true);
-            btnUpdate.Visible = false;
-            btnAdd.Visible = true;
+            _mode = FormMode.Add;
         }
-
 
         public void SetUpdateMode(int personId)
         {
-            LoadPerson(_peopleBusiness.GetPerson(personId));
+            _person = PeopleBusiness.GetPerson(personId);
+            LoadPerson();
             SetControlsEnabled(true);
-            btnUpdate.Visible = true;
-            btnAdd.Visible = false;
+            _mode = FormMode.Update;
         }
 
-        private void LoadPerson(People person)
+        private void LoadPerson()
         {
-            if (person != null)
+            
+            if (_person != null)
             {
-                lblID.Text = person.PersonID.ToString();
-                tbfirstName.Text = person.FirstName;
-                tblastName.Text = person.LastName;
-                tbAddress.Text = person.Address;
-                tbEmail.Text = person.Email;
-                TBNational.Text = person.NationalNo;
-                tbPhone.Text = person.Phone;
-                ComboxContries.Text = person.Nationality;
-                dtDateOfBirth.Value = person.DateOfBirth;
-                RBMale.Checked = person.Gender == 'M';
-                RBFemale.Checked = person.Gender == 'F';
-                loadPic(person.ImagePath);
+                lblID.Text = _person.PersonID.ToString();
+                tbfirstName.Text = _person.FirstName;
+                tblastName.Text = _person.LastName;
+                tbAddress.Text = _person.Address;
+                tbEmail.Text = _person.Email;
+                TBNational.Text = _person.NationalNo;
+                tbPhone.Text = _person.Phone;
+                ComboxContries.SelectedValue = _person.NationalityID;
+                dtDateOfBirth.Value = _person.DateOfBirth;
+                RBMale.Checked = _person.Gender == 'M';
+                RBFemale.Checked = _person.Gender == 'F';
+                loadPic(_person.ImagePath);
             }
         }
 
@@ -110,7 +107,7 @@ namespace DVLD
             tbEmail.Text = string.Empty;
             TBNational.Text = string.Empty;
             tbPhone.Text = string.Empty;
-            ComboxContries.SelectedIndex = 51;
+            ComboxContries.SelectedValue = 51;
             dtDateOfBirth.Value = DateTime.Today.AddYears(-18);
             RBMale.Checked = true;
             loadPic(null);
@@ -122,7 +119,7 @@ namespace DVLD
             tblastName.ReadOnly = !enabled;
             tbAddress.ReadOnly = !enabled;
             tbEmail.ReadOnly = !enabled;
-            TBNational.ReadOnly = !enabled;
+            TBNational.Enabled = enabled;
             tbPhone.ReadOnly = !enabled;
             ComboxContries.Enabled = enabled;
             dtDateOfBirth.Enabled = enabled;
@@ -156,30 +153,13 @@ namespace DVLD
                 Email = tbEmail.Text,
                 NationalNo = TBNational.Text,
                 Phone = tbPhone.Text,
-                Nationality = ComboxContries.Text,
+                NationalityID = (int)ComboxContries.SelectedValue,
                 DateOfBirth = dtDateOfBirth.Value,
                 Gender = RBMale.Checked ? 'M' : 'F',
-                ImagePath = pictureBox1.ImageLocation
+                ImagePath = _person.ImagePath
             };
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
-        {
-            var person = GetPersonFromForm();
-            if (_peopleBusiness.UpdatePerson(person)>0)
-            {
-                MessageBox.Show("Person updated successfully.");
-            }
-        }
-
-        private void btnAdd_Click(object sender, EventArgs e)
-        {
-            var person = GetPersonFromForm();
-            if (_peopleBusiness.AddPerson(person) > 0)
-            {
-                MessageBox.Show("Person added successfully.");
-            }
-        }
         private void ValidateRequiredField(object sender, CancelEventArgs e)
         {
             var textBox = sender as System.Windows.Forms.TextBox;
@@ -202,7 +182,7 @@ namespace DVLD
                 errorProvider1.SetError(textBox, "This field is required.");
                 e.Cancel = true;
             }
-            else if (!_peopleBusiness.isUniqueNum(textBox.Text))
+            else if (!PeopleBusiness.isUniqueNum(textBox.Text))
             {
                 errorProvider1.SetError(textBox, "National number must be unique.");
                 e.Cancel = true;
@@ -223,24 +203,43 @@ namespace DVLD
             {
                 openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
                 openFileDialog.Title = "Select an Image";
-                string _imageFolderPath = "C:\\Users\\Mofid\\Desktop\\coding\\C#\\DVLS\\images\\";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedImagePath = openFileDialog.FileName;
-                    string newImagePath = Path.Combine(_imageFolderPath, Guid.NewGuid().ToString() + Path.GetExtension(selectedImagePath));
 
-                    // Delete the old image if it exists
-                    if (!string.IsNullOrEmpty(pictureBox1.ImageLocation))
-                    {
-                        File.Delete(pictureBox1.ImageLocation);
-                    }
-
-                    // copy the new image to the project folder
-                    File.Copy(selectedImagePath, newImagePath);
-
-                    pictureBox1.ImageLocation = newImagePath;
+                    pictureBox1.ImageLocation = selectedImagePath;
                 }
             }
+        }
+
+        void SavePicture()
+        {
+            string _imageFolderPath = "C:\\Users\\Mofid\\Desktop\\coding\\C#\\DVLS\\images\\";
+
+            string newImagePath = Path.Combine(_imageFolderPath, Guid.NewGuid().ToString() + Path.GetExtension(pictureBox1.ImageLocation));
+
+            if (string.IsNullOrEmpty(_person.ImagePath) && !string.IsNullOrEmpty(pictureBox1.ImageLocation))
+            {
+                File.Copy(pictureBox1.ImageLocation, newImagePath);
+                _person.ImagePath = newImagePath;
+                MessageBox.Show("1");
+            }
+            else if(!string.IsNullOrEmpty(_person.ImagePath) && string.IsNullOrEmpty(pictureBox1.ImageLocation))
+            {
+                MessageBox.Show($"Attempting to delete: {_person.ImagePath}\nExists: {File.Exists(_person.ImagePath)}");
+                File.Delete(_person.ImagePath);
+                _person.ImagePath = null;
+
+            }
+            else if (!string.IsNullOrEmpty(_person.ImagePath + pictureBox1.ImageLocation) && pictureBox1.ImageLocation != _person.ImagePath)
+            {
+                MessageBox.Show($"Attempting to delete: {_person.ImagePath}\nExists: {File.Exists(_person.ImagePath)}");
+                File.Copy(pictureBox1.ImageLocation, newImagePath);
+                File.Delete(_person.ImagePath);
+                _person.ImagePath = newImagePath;
+
+            }
+
         }
 
         private void lblDelete_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -253,6 +252,32 @@ namespace DVLD
                 // Clear the PictureBox and reset to default image
                 pictureBox1.ImageLocation = null;
                 loadPic(null);
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (this.ValidateChildren())
+            {
+                SavePicture();
+                if (_mode == FormMode.Update)
+                {
+                    People person = GetPersonFromForm();
+                    if (PeopleBusiness.UpdatePerson(person) > 0)
+                    {
+                        MessageBox.Show("Person updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    People person = GetPersonFromForm();
+                    int id = PeopleBusiness.AddPerson(person);
+                    if (id > 0)
+                    {
+                        MessageBox.Show("Person updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.lblID.Text = id.ToString();
+                    }
+                }
             }
         }
     }

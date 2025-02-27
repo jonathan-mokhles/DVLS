@@ -80,9 +80,8 @@
             this.msIssueDrivingLicense,
             this.msShowDrivingLicense});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 190);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(215, 218);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            this.contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
             // 
             // msShowApplication
             // 
@@ -96,6 +95,7 @@
             this.msEditApplication.Name = "msEditApplication";
             this.msEditApplication.Size = new System.Drawing.Size(214, 24);
             this.msEditApplication.Text = "Edit Application";
+            this.msEditApplication.Click += new System.EventHandler(this.msEditApplication_Click);
             // 
             // msDeleteApplication
             // 
@@ -194,6 +194,7 @@
             this.ClientSize = new System.Drawing.Size(1098, 598);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LocalLicenseApplicationManagment";
             this.Text = "Local License Application";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

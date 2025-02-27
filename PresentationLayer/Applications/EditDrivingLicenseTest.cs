@@ -19,9 +19,7 @@ namespace DVLD
         private void button1_Click(object sender, EventArgs e)
         {
    
-
-             TestsTypesBuisness _tests = new TestsTypesBuisness();
-            bool success = _tests.EditApplicationTests(new TestTypes
+            bool success = TestsTypesBuisness.EditApplicationTests(new TestTypes
             {
                 ID = Convert.ToInt32(lblID.Text),
                 Title = tbName.Text,

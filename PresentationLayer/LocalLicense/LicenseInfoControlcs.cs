@@ -23,54 +23,46 @@ namespace DVLD
             InitializeComponent();
         }
 
-        public void LoadForm(int? AppId, int? licenseID = null)
+        public void SetLicenseByID(int licenseID)
         {
-            table = _licenseBusiness.GetLicenseByAppID(AppId, licenseID);
-            if (table.Rows.Count != 0)
+            licenses = LicenseBusiness.GetLicenseByID(licenseID);
+            LoadForm();
+        }
+        public void SetLicenseByAppID(int AppId)
+        {
+            licenses = LicenseBusiness.GetLicenseByAppID(AppId);
+            LoadForm();
+        }
+        private void LoadForm()
+        {
+            if (licenses != null)
             {
-                DataRow row = table.Rows[0];
-                licenses = new DrivingLicense
-                {
-                    LicenseID = (int)row["LicenseID"],
-                    ApplicationID = (int)row["ApplicationID"],
-                    PersonID = (int)row["PersonID"],
-                    LicenseClassID = (int)row["LicenseClassID"],
-                    IssueDate = (DateTime)row["IssueDate"],
-                    ExpirationDate = (DateTime)row["ExpirationDate"],
-                    Notes = (object)row["Notes"] == DBNull.Value? null : (string)row["Notes"],
-                    PaidFees = (decimal)row["PaidFees"],
-                    IsActive = (bool)row["IsActive"],
-                    IssueReason = (IssueReason)Convert.ToInt32(row["IssueReason"]),
-                    CreatedByUserID = (int)row["CreatedByUserID"],
-                    IsDetain = row["IsDetain"] != DBNull.Value ? true : false
-                };
-
-                this.lblClass.Text = row["ClassName"].ToString();
-                this.lblName.Text = row["FullName"].ToString();
+                this.lblClass.Text = licenses.Class.Name;
+                this.lblName.Text = licenses.Application.person.FirstName +" "+ licenses.Application.person.LastName;
                 this.lblLicenseId.Text = licenses.LicenseID.ToString();
-                this.lblNational.Text = row["NationalNo"].ToString();
-                this.lblGender.Text = row["Gender"].ToString();
-                this.lblIssueDate.Text = licenses.IssueDate.ToString("MM/dd/yyyy");
-                this.lblExpiryDate.Text = licenses.ExpirationDate.ToString("MM/dd/yyyy");
+                this.lblNational.Text = licenses.Application.person.NationalNo;
+                this.lblGender.Text = licenses.Application.person.Gender.ToString();
+                this.lblIssueDate.Text = licenses.IssueDate.ToString("dd/mm/yyyy");
+                this.lblExpiryDate.Text = licenses.ExpirationDate.ToString("dd/mm/yyyy");
                 this.lblIssueReason.Text = licenses.IssueReason.ToString();
                 this.lblNotes.Text = licenses.Notes;
                 this.lblIsActive.Text = licenses.IsActive? "Yes" : "No";
                 this.lblDetain.Text = licenses.IsDetain? "Yes" : "No";
-                this.lblDateOfBirth.Text = ((DateTime)row["DateOfBirth"]).ToString("MM/dd/yyyy");
+                this.lblDateOfBirth.Text = licenses.Application.person.DateOfBirth.ToString("dd/mm/yyyy");
 
-                if (string.IsNullOrEmpty(row["ImagePath"].ToString()))
+                if (string.IsNullOrEmpty(licenses.Application.person.ImagePath))
                 {
-                    if (lblGender.Text == "Male")
+                    if (licenses.Application.person.Gender == 'M')
                         pictureBox1.Image = Properties.Resources.male;
                     else
                         pictureBox1.Image = Properties.Resources.female;
                 }
                 else
-                    pictureBox1.ImageLocation = row["ImagePath"].ToString();
+                    pictureBox1.ImageLocation = licenses.Application.person.ImagePath;
             }
             else
             {
-                MessageBox.Show("no");
+                MessageBox.Show("Wrong license No.");
             }
         }
 

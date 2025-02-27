@@ -8,44 +8,41 @@ namespace BusinessLayer
 {
     public class TestAppointmentBusiness
     {
-        TestAppointmentDA _testAppointmentDA = new TestAppointmentDA();
-        ApplicationBusiness _applicationBusiness = new ApplicationBusiness();
-        LocalLicenseApplicationBusiness _localBusiness = new LocalLicenseApplicationBusiness();
-        public int CreateTestAppointment(TestAppointment appointment)
+        public static int CreateTestAppointment(TestAppointment appointment)
         {
-            return _testAppointmentDA.InsertTestAppointment(appointment);
+            return TestAppointmentDA.InsertTestAppointment(appointment);
         }
-        public int CreateRetakeTestAppointment(TestAppointment appointment,decimal retakeFees)
+        public static int CreateRetakeTestAppointment(TestAppointment appointment,decimal retakeFees)
         {
-            Applications app =  _localBusiness.GetLocalApplication(appointment.LocalDrivingLicenseApplicationID).Application;
+            Applications app = LocalLicenseApplicationBusiness.GetLocalApplication(appointment.LocalDrivingLicenseApplicationID);
             app.LastStatusDate = DateTime.Now;
             app.Date = DateTime.Now;
-            app.TypeID = 7;
-            app.CreatedByUserId = GlobalSettings.CurrentUserID;
+            app.Type.ID = 7;
+            app.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
             app.PaidFees = retakeFees;
 
-            int id = _applicationBusiness.AddApplication(app);
+            int id = ApplicationBusiness.AddApplication(app);
 
             appointment.RetakeTestApplicationID = id;
 
-            return _testAppointmentDA.InsertTestAppointment(appointment);
+            return TestAppointmentDA.InsertTestAppointment(appointment);
         }
 
-        public void UpdateTestAppointment(TestAppointment appointment)
+        public static void UpdateTestAppointment(TestAppointment appointment)
         {
-            _testAppointmentDA.UpdateTestAppointment(appointment);
+            TestAppointmentDA.UpdateTestAppointment(appointment);
         }
-        public void DeleteTestAppointment(int testAppointmentID)
+        public static void DeleteTestAppointment(int testAppointmentID)
         {
-            _testAppointmentDA.DeleteTestAppointment(testAppointmentID);
+            TestAppointmentDA.DeleteTestAppointment(testAppointmentID);
         }
-        public TestAppointment GetTestAppointmentByID(int testAppointmentID)
+        public static TestAppointment GetTestAppointmentByID(int testAppointmentID)
         {
-            return _testAppointmentDA.GetTestAppointmentByID(testAppointmentID);
+            return TestAppointmentDA.GetTestAppointmentByID(testAppointmentID);
         }
-        public DataTable GetTestAppointments(int typeId, int appId)
+        public static DataTable GetTestAppointments(int typeId, int appId)
         {
-            return _testAppointmentDA.GetAllTestAppointments( typeId,  appId);
+            return TestAppointmentDA.GetAllTestAppointments( typeId,  appId);
         }
     }
 }

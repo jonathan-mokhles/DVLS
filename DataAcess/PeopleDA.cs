@@ -9,34 +9,18 @@ using Entity;
 
 namespace DataAccess
 {
-    //public struct connectionString
-    //{
-    //    public static string Value = "Server=JONATHAN_MOKHLE\\MSQLSERVER;Database=DVLD;User=sa;Password=123456";
-
-    //}
 
 
-    public class PeopleDA
+   public class PeopleDA
     {
-        private static PeopleDA peopleAccess;
-        private PeopleDA() { }
-        public static PeopleDA getPeopleAccess()
-        {
-            if(peopleAccess == null)
-            {
-                peopleAccess = new PeopleDA();
-            }
-            return peopleAccess;
-
-        }
 
 
-        public DataTable GetAllPeople()
+        public static DataTable GetAllPeople()
         {
             SqlConnection connection = new SqlConnection(connectionString.Value);
              string query = "SELECT [PersonID],[NationalNo],[FirstName],[LastName],[DateOfBirth], " +
-                "CASE WHEN [Gender] = 0 THEN 'M' ELSE 'F' END AS Gender, " +
-                "[Address],[Phone],[Email] ,[CountryName] FROM [People],[Countries] " +
+                "CASE WHEN [Gender] = 0 THEN 'Male' ELSE 'Female' END AS Gender, " +
+                "[Address],[Phone],[CountryName] FROM [People],[Countries] " +
                 "where Countries.CountryID = People.NationalityCountryID";
 
              SqlCommand command = new SqlCommand(query, connection);
@@ -50,13 +34,12 @@ namespace DataAccess
             
         }
 
-        public People GetPersonByID(int id)
+        public static People GetPersonByID(int id)
         {
                 People person = new People();
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
-                string query = "select * from People,Countries where PersonID =@ID and " +
-                "People.NationalityCountryID = Countries.CountryID ";
+                string query = "select * from People where PersonID =@ID ;";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ID", id);
 
@@ -73,26 +56,25 @@ namespace DataAccess
                     person.Address = (string)reader["Address"];
                     person.Phone = (string)reader["Phone"];
                     person.Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"];
-                    person.Nationality = (string)reader["CountryName"];
+                    person.NationalityID = (int)reader["NationalityCountryID"];
                     person.ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"];
 
                 }
                 else
                 {
-                    person.PersonID = -1;
+                    person = null ;
                 }
             }
             return person;
 
 
         }
-        public People GetPersonByNo(String nationalNo)
+        public static People GetPersonByNo(String nationalNo)
         {
                 People person = new People();
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
-                string query = "select * from People,Countries where NationalNo =@No and " +
-                "People.NationalityCountryID = Countries.CountryID ";
+                string query = "select * from People where NationalNo =@No ";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@No", nationalNo);
 
@@ -110,25 +92,26 @@ namespace DataAccess
                     person.Address = (string)reader["Address"];
                     person.Phone = (string)reader["Phone"];
                     person.Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"];
-                    person.Nationality = (string)reader["CountryName"];
+                    person.NationalityID = (int)reader["NationalityCountryID"];
                     person.ImagePath = reader["ImagePath"] == DBNull.Value ? null : (string)reader["ImagePath"];
 
                 }
                 else
                 {
-                    person.PersonID = -1;
+                    person = null;
                 }
             }
             return person;
 
 
         }
-        public int AddPerson(People person)
+        public static int AddPerson(People person)
         {
             SqlConnection connection = new SqlConnection(connectionString.Value);
            
-                string query = "INSERT INTO People VALUES " +
-                               "(@NationalNo,@FirstName, @LastName, @DateOfBirth, @Gender,@Address,@Phone,@Email, @Country, @ImagePath)";
+                string query = @"INSERT INTO People VALUES 
+                               (@NationalNo,@FirstName, @LastName, @DateOfBirth, @Gender,@Address,@Phone,@Email, @Country, @ImagePath);
+                                SELECT SCOPE_IDENTITY();";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@NationalNo", person.NationalNo);
             command.Parameters.AddWithValue("@FirstName", person.FirstName);
@@ -137,7 +120,7 @@ namespace DataAccess
             command.Parameters.AddWithValue("@Gender", person.Gender == 'F');
             command.Parameters.AddWithValue("@Address", person.Address);
             command.Parameters.AddWithValue("@Phone", person.Phone);
-            command.Parameters.AddWithValue("@Country", GetCountryID(person.Nationality));
+            command.Parameters.AddWithValue("@Country", person.NationalityID);
 
             if (person.Email == null)
                 command.Parameters.AddWithValue("@Email", DBNull.Value);
@@ -150,28 +133,14 @@ namespace DataAccess
                 command.Parameters.AddWithValue("@ImagePath", person.ImagePath);
 
             connection.Open();
-            int i = command.ExecuteNonQuery();
+            int i =Convert.ToInt32(command.ExecuteScalar());
             connection.Close();
             return i;
 
 
         }
-        private int GetCountryID(string country)
-        {
-            SqlConnection connection = new SqlConnection(connectionString.Value);
-            string query = "select CountryID from Countries WHERE CountryName = @name";
-            SqlCommand command = new SqlCommand(query, connection);
-            command.Parameters.AddWithValue("@name", country);
 
-            connection.Open();
-           object value = command.ExecuteScalar();
-            int id =  Convert.ToInt32(value);
-            connection.Close();
-            return id;
-
-        }
-
-        public int UpdatePerson(People person)
+        public static int UpdatePerson(People person)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {
@@ -191,7 +160,7 @@ namespace DataAccess
                 else
                     command.Parameters.AddWithValue("@Email", person.Email);
 
-                command.Parameters.AddWithValue("@Country", GetCountryID(person.Nationality));
+                command.Parameters.AddWithValue("@Country", person.NationalityID);
 
                 if(person.ImagePath == null)
                     command.Parameters.AddWithValue("@ImagePath", DBNull.Value);
@@ -203,7 +172,7 @@ namespace DataAccess
             }
         }
 
-        public bool isUniqueNationalNo(string num)
+        public static bool isUniqueNationalNo(string num)
         {
             SqlConnection connection = new SqlConnection(connectionString.Value);
             string query = "select NationalNo from People WHERE NationalNo = @NationalNo";
@@ -220,7 +189,7 @@ namespace DataAccess
             connection.Close();
             return isUnique;
         }
-        public int DeletePerson(int id)
+        public static int DeletePerson(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString.Value))
             {

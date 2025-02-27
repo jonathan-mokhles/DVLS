@@ -14,7 +14,7 @@ namespace BusinessLayer
         CountriesDA countries = new CountriesDA();
         public DataTable GetAllCountries()
         {
-            return countries.GetCountries();
+            return CountriesDA.GetCountries();
         }
     }
 }

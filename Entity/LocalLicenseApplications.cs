@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace Entity
 {
-    public class LocalLicenseApplications 
+    public class LocalLicenseApplications : Applications
     {
-        public Applications Application { get; set; }
         public int LocalID { get; set; }
-        public int classID { get; set; }
-        public string className{ get; set; }
+        public LicenseClass Class { get; set; }
+
+        public LocalLicenseApplications() { Class = new LicenseClass();  }
+        public void setApp (Applications app) {
+            this.person =  app.person ;
+            this.Date = app.Date ;
+            this.Status = app.Status;
+            this.LastStatusDate = app.LastStatusDate;
+            this.CreatedByUser = app.CreatedByUser;
+            this.Type = app.Type;
+            this.ID = app.ID;
+            this.PaidFees = app.PaidFees;
+
+            }
     }
 }

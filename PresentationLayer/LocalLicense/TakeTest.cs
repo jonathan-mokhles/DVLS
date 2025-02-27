@@ -7,11 +7,10 @@ namespace DVLD
     public partial class TakeTest : Form
     {
         TestAppointment testAppointment;
-        TestAppointmentBusiness _appointmentBusiness = new TestAppointmentBusiness();
-        int Trails;
+        int Trails = 0;
         public TakeTest(int testID,int trails)
         {
-            testAppointment = _appointmentBusiness.GetTestAppointmentByID(testID);
+            testAppointment = TestAppointmentBusiness.GetTestAppointmentByID(testID);
             int Trails = trails;
             InitializeComponent();
             SetForm();
@@ -36,7 +35,7 @@ namespace DVLD
         {
             testAppointment.Notes = tbNotes.Text;
             testAppointment.TestResult = rbPass.Checked? TestsResult.Passed : TestsResult.Failed;
-            _appointmentBusiness.UpdateTestAppointment(testAppointment);
+            TestAppointmentBusiness.UpdateTestAppointment(testAppointment);
             this.Close();
         }
     }

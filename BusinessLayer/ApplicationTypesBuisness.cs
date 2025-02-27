@@ -11,19 +11,17 @@ namespace BusinessLayer
 {
     public class ApplicationTypesBuisness
     {
-        ApplicationTypesDA _applicationTypesAccess = new ApplicationTypesDA();
-
-        public DataTable GetAllTypes()
+        public static DataTable GetAllTypes()
         {
-            return _applicationTypesAccess.GetAllApplicationTypes();
+            return ApplicationTypesDA.GetAllApplicationTypes();
         }
-        public bool EditApplicationType(ApplicationTypes type)
+        public static bool EditApplicationType(ApplicationTypes type)
         {
-            return _applicationTypesAccess.UpdateApplicationType(type);
+            return ApplicationTypesDA.UpdateApplicationType(type);
         } 
-        public ApplicationTypes GetType(int typeid)
+        public static ApplicationTypes GetType(int typeid)
         {
-            return _applicationTypesAccess.GetTypeByID(typeid);
+            return ApplicationTypesDA.GetTypeByID(typeid);
         }
     }
 }

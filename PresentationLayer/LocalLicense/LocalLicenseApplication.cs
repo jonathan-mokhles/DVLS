@@ -9,86 +9,83 @@ namespace DVLD
     public partial class LocalLicenseApplication : UserControl
     {
         private FormMode _currentMode;
-        DataTable _application;
-        LocalLicenseApplicationBusiness app = new LocalLicenseApplicationBusiness();
+
         int _personID;
+        LocalLicenseApplications _localApp = new LocalLicenseApplications();
+
 
         public LocalLicenseApplication()
         {
             InitializeComponent();
             lblDate.Text = DateTime.Now.ToString();
-            lblUser.Text = GlobalSettings.CurrentUserID.ToString();
             loadClasses();
 
-            ApplicationTypesBuisness type = new ApplicationTypesBuisness();
-            _application = type.GetAllTypes();
         }
 
         public void loadClasses()
         {
-            DrivinglicenseClassesBuisness types = new DrivinglicenseClassesBuisness();
-            cbClass.DataSource = types.GetAllClasses();
+            cbClass.DataSource = DrivinglicenseClassesBuisness.GetAllClasses();
 
             
             cbClass.DisplayMember = "ClassName";
             cbClass.SelectedIndex = 2;
             cbClass.ValueMember = "LicenseClassID";
         }
-
         public void SetAddMode()
         {
             _currentMode = FormMode.Add;
             this.personControl1.SetViewMode(null);
             SetControlsEnabled(true);
-            btnSave.Visible = true;
-            lblFees.Text = _application.Rows[0].Field<decimal>(2).ToString();
+            //lblFees.Text = _type.Fees.ToString();
             lblStatus.Text = ApplicationStatus.New.ToString();
+            lblUser.Text = GlobalSettings.CurrentUser.UserName;
+
+        }
+        public void SetUpdateMode(int localId)
+        {
+            _currentMode = FormMode.Update;
+            _localApp = LocalLicenseApplicationBusiness.GetLocalApplication(localId);
+            SetApplication(_localApp);
+            SetControlsEnabled(true);
+            panelFind.Visible = false;
+
         }
 
-        public void SetViewMode(int userId)
+        public void SetViewMode(int localId)
         {
             _currentMode = FormMode.View;
-            SetApplication(app.GetLocalApplication(userId));
+            _localApp = LocalLicenseApplicationBusiness.GetLocalApplication(localId);
+            SetApplication(_localApp);
             SetControlsEnabled(false);
-            panelFind.Visible = false;
         }
 
-        public LocalLicenseApplications GetApplication()
+        public void GetApplication()
         {
-            return new LocalLicenseApplications
-            {
-                Application = new Applications
-                {
-                    PersonID = _personID,
-                    Date = DateTime.Now,
-                    LastStatusDate = DateTime.Now,
-                    TypeID = 1,
-                    Status = (ApplicationStatus)1,
-                    CreatedByUserId = GlobalSettings.CurrentUserID,
-                    PaidFees = Convert.ToDecimal(lblFees.Text)
-                },
-                classID = Convert.ToInt32(cbClass.SelectedValue.ToString())
-            };               
+            _localApp.person.PersonID = _personID;
+            _localApp.Date = DateTime.Now;
+            _localApp.LastStatusDate = DateTime.Now;
+            _localApp.Type.ID = 1;
+            _localApp.Status = (ApplicationStatus)1;
+            _localApp.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
+            _localApp.PaidFees = Convert.ToDecimal(lblFees.Text);
+            _localApp.Class.ID = Convert.ToInt32(cbClass.SelectedValue);
+            
         }
         public void SetApplication(LocalLicenseApplications app)
         {
-            this.personControl1.SetViewMode(app.Application.PersonID);
-            this.lblId.Text = app.Application.ID.ToString();
-            this.lblDate.Text = app.Application.Date.ToString();
-            this.lblFees.Text = app.Application.PaidFees.ToString();
-            cbClass.SelectedValue = app.classID;
-            this.lblStatus.Text = app.Application.Status.ToString();
+            this.personControl1.SetViewMode(app.person.PersonID);
+            this.lblId.Text = app.ID.ToString();
+            this.lblDate.Text = app.Date.ToString();
+            this.lblFees.Text = app.PaidFees.ToString();
+            cbClass.SelectedValue = app.Class.ID;
+            this.lblStatus.Text = app.Status.ToString();
+            this.lblUser.Text = app.CreatedByUser.UserName;
 
-        }
-        public void SetUpdateMode(int userId)
-        {
-            _currentMode = FormMode.Update;
-            SetControlsEnabled(true);
-            panelFind.Visible = false;
         }
         private void SetControlsEnabled(bool enabled)
         {
             cbClass.Enabled = enabled;
+            btnSave.Visible = enabled;
             panelFind.Enabled = enabled;
         }
 
@@ -115,27 +112,42 @@ namespace DVLD
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-
-            if (!app.IsPersonHaveApp(_personID, Convert.ToInt32(cbClass.SelectedValue.ToString())))
-            {
-                if (app.AddApp(GetApplication())>0)
+            if (_currentMode == FormMode.Add){ 
+                if (!LocalLicenseApplicationBusiness.IsPersonHaveApp(_personID, Convert.ToInt32(cbClass.SelectedValue)))
                 {
-                    MessageBox.Show("Added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    GetApplication();
+                    int id = LocalLicenseApplicationBusiness.AddApp(_localApp);
+                    if (id > 0)
+                    {
+                        MessageBox.Show("Added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.lblId.Text = id.ToString();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("this person already have active application for the same license class", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+        }
+            else
+            {
+                GetApplication();
+                if (LocalLicenseApplicationBusiness.UpdateApp(_localApp))
+                {
+                    MessageBox.Show("Updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     MessageBox.Show("Failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
-            {
-                MessageBox.Show("this person already have active application for the same license class", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-            }
         }
 
 
-        //lblFees.Text = licenseClasses.Rows[cbClass.SelectedIndex].Field<decimal>(5).ToString();
 
     }
 }

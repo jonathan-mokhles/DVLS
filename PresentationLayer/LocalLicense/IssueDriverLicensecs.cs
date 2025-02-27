@@ -14,39 +14,34 @@ namespace DVLD
 {
     public partial class IssueDriverLicensecs : Form
     {
-        LocalLicenseApplications _applications;
-        LicenseClass _licenseClass;
-
-        LocalLicenseApplicationBusiness _LocalBusiness = new LocalLicenseApplicationBusiness();
-        LicenseBusiness _licenseBusiness = new LicenseBusiness();
-        DrivinglicenseClassesBuisness classesBuisness = new DrivinglicenseClassesBuisness();
+        LocalLicenseApplications _Localapplications;
 
         public IssueDriverLicensecs(int AppID)
         {
             InitializeComponent();
-            _applications = _LocalBusiness.GetLocalApplication(AppID);
-            _licenseClass = classesBuisness.GetClass(_applications.classID);
-            this.localLicenseApplicationInfo1.SetApp(_applications);
+            _Localapplications = LocalLicenseApplicationBusiness.GetLocalApplication(AppID);
+            this.localLicenseApplicationInfo1.SetApp(_Localapplications);
         }
 
         private void btnIssue_Click(object sender, EventArgs e)
         {
-            int id = _licenseBusiness.CreateLicense(new DrivingLicense
-            {
-                ApplicationID = _applications.Application.ID,
-                PersonID = _applications.Application.PersonID,
-                LicenseClassID = _applications.classID,
-                IssueDate = DateTime.Now,
-                ExpirationDate = DateTime.Now.AddYears(_licenseClass.DefaultValidityLength),
-                Notes = null,
-                PaidFees = _licenseClass.Fees,
-                IsActive = true,
-                IssueReason = IssueReason.FirstTime,
-                CreatedByUserID = GlobalSettings.CurrentUserID
-            });
-            _applications.Application.Status = ApplicationStatus.Completed;
-            _applications.Application.LastStatusDate = DateTime.Now;
-            _LocalBusiness.UpdateApp(_applications);
+            DrivingLicense license = new DrivingLicense();
+            license.Application.ID = _Localapplications.ID;
+            license.Application.person.PersonID = _Localapplications.person.PersonID;
+            license.Class.ID = _Localapplications.Class.ID;
+            license.IssueDate = DateTime.Now;
+            license.ExpirationDate = DateTime.Now.AddYears(_Localapplications.Class.DefaultValidityLength);
+            license.Notes = null;
+            license.PaidFees = _Localapplications.Class.Fees;
+            license.IsActive = true;
+            license.IssueReason = IssueReason.FirstTime;
+            license.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
+
+            int id = LicenseBusiness.CreateLicense(license);
+
+            _Localapplications.Status = ApplicationStatus.Completed;
+            _Localapplications.LastStatusDate = DateTime.Now;
+            LocalLicenseApplicationBusiness.UpdateApp(_Localapplications);
             MessageBox.Show("License  created successfully! with ID "+id, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.Close();
         }

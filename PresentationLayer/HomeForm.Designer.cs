@@ -85,8 +85,9 @@
             this.profileToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Padding = new System.Windows.Forms.Padding(6, 3, 0, 3);
             this.menuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip.Size = new System.Drawing.Size(1079, 58);
+            this.menuStrip.Size = new System.Drawing.Size(1440, 60);
             this.menuStrip.Stretch = false;
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip";
@@ -101,10 +102,11 @@
             this.toolStripMenuItem1,
             this.applicationTypesToolStripMenuItem,
             this.licenseTestsTypesToolStripMenuItem});
+            this.driverLicenseToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.driverLicenseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("driverLicenseToolStripMenuItem.Image")));
             this.driverLicenseToolStripMenuItem.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.driverLicenseToolStripMenuItem.Name = "driverLicenseToolStripMenuItem";
-            this.driverLicenseToolStripMenuItem.Size = new System.Drawing.Size(166, 54);
+            this.driverLicenseToolStripMenuItem.Size = new System.Drawing.Size(204, 54);
             this.driverLicenseToolStripMenuItem.Text = "Driver license ";
             // 
             // servicesToolStripMenuItem
@@ -114,7 +116,7 @@
             this.renewLicenceToolStripMenuItem,
             this.replacementLicenseToolStripMenuItem});
             this.servicesToolStripMenuItem.Name = "servicesToolStripMenuItem";
-            this.servicesToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.servicesToolStripMenuItem.Size = new System.Drawing.Size(288, 32);
             this.servicesToolStripMenuItem.Text = "Services";
             // 
             // newLicenseToolStripMenuItem
@@ -123,41 +125,41 @@
             this.localLicenseToolStripMenuItem,
             this.internationalLicenseToolStripMenuItem});
             this.newLicenseToolStripMenuItem.Name = "newLicenseToolStripMenuItem";
-            this.newLicenseToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.newLicenseToolStripMenuItem.Size = new System.Drawing.Size(283, 32);
             this.newLicenseToolStripMenuItem.Text = "New license";
             // 
             // localLicenseToolStripMenuItem
             // 
             this.localLicenseToolStripMenuItem.Name = "localLicenseToolStripMenuItem";
-            this.localLicenseToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.localLicenseToolStripMenuItem.Size = new System.Drawing.Size(282, 32);
             this.localLicenseToolStripMenuItem.Text = "Local license";
             this.localLicenseToolStripMenuItem.Click += new System.EventHandler(this.localLicenseToolStripMenuItem_Click);
             // 
             // internationalLicenseToolStripMenuItem
             // 
             this.internationalLicenseToolStripMenuItem.Name = "internationalLicenseToolStripMenuItem";
-            this.internationalLicenseToolStripMenuItem.Size = new System.Drawing.Size(225, 26);
+            this.internationalLicenseToolStripMenuItem.Size = new System.Drawing.Size(282, 32);
             this.internationalLicenseToolStripMenuItem.Text = "International license";
             this.internationalLicenseToolStripMenuItem.Click += new System.EventHandler(this.internationalLicenseToolStripMenuItem_Click);
             // 
             // renewLicenceToolStripMenuItem
             // 
             this.renewLicenceToolStripMenuItem.Name = "renewLicenceToolStripMenuItem";
-            this.renewLicenceToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.renewLicenceToolStripMenuItem.Size = new System.Drawing.Size(283, 32);
             this.renewLicenceToolStripMenuItem.Text = "Renew licence";
             this.renewLicenceToolStripMenuItem.Click += new System.EventHandler(this.renewLicenceToolStripMenuItem_Click);
             // 
             // replacementLicenseToolStripMenuItem
             // 
             this.replacementLicenseToolStripMenuItem.Name = "replacementLicenseToolStripMenuItem";
-            this.replacementLicenseToolStripMenuItem.Size = new System.Drawing.Size(228, 26);
+            this.replacementLicenseToolStripMenuItem.Size = new System.Drawing.Size(283, 32);
             this.replacementLicenseToolStripMenuItem.Text = "Replacement license";
             this.replacementLicenseToolStripMenuItem.Click += new System.EventHandler(this.replacementLicenseToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(230, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(285, 6);
             // 
             // manageApplicationsToolStripMenuItem
             // 
@@ -165,20 +167,20 @@
             this.localLicenseToolStripMenuItem1,
             this.internationalLicenseToolStripMenuItem1});
             this.manageApplicationsToolStripMenuItem.Name = "manageApplicationsToolStripMenuItem";
-            this.manageApplicationsToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.manageApplicationsToolStripMenuItem.Size = new System.Drawing.Size(288, 32);
             this.manageApplicationsToolStripMenuItem.Text = "Manage Applications";
             // 
             // localLicenseToolStripMenuItem1
             // 
             this.localLicenseToolStripMenuItem1.Name = "localLicenseToolStripMenuItem1";
-            this.localLicenseToolStripMenuItem1.Size = new System.Drawing.Size(228, 26);
+            this.localLicenseToolStripMenuItem1.Size = new System.Drawing.Size(286, 32);
             this.localLicenseToolStripMenuItem1.Text = "Local License";
             this.localLicenseToolStripMenuItem1.Click += new System.EventHandler(this.localLicenseToolStripMenuItem1_Click);
             // 
             // internationalLicenseToolStripMenuItem1
             // 
             this.internationalLicenseToolStripMenuItem1.Name = "internationalLicenseToolStripMenuItem1";
-            this.internationalLicenseToolStripMenuItem1.Size = new System.Drawing.Size(228, 26);
+            this.internationalLicenseToolStripMenuItem1.Size = new System.Drawing.Size(286, 32);
             this.internationalLicenseToolStripMenuItem1.Text = "international License";
             this.internationalLicenseToolStripMenuItem1.Click += new System.EventHandler(this.internationalLicenseToolStripMenuItem1_Click);
             // 
@@ -189,74 +191,78 @@
             this.detainLicenseToolStripMenuItem,
             this.relaseLicenseToolStripMenuItem});
             this.detainLicensesToolStripMenuItem.Name = "detainLicensesToolStripMenuItem";
-            this.detainLicensesToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.detainLicensesToolStripMenuItem.Size = new System.Drawing.Size(288, 32);
             this.detainLicensesToolStripMenuItem.Text = "Detain licenses";
             // 
             // manageDetainApplicationsToolStripMenuItem
             // 
             this.manageDetainApplicationsToolStripMenuItem.Name = "manageDetainApplicationsToolStripMenuItem";
-            this.manageDetainApplicationsToolStripMenuItem.Size = new System.Drawing.Size(277, 26);
+            this.manageDetainApplicationsToolStripMenuItem.Size = new System.Drawing.Size(348, 32);
             this.manageDetainApplicationsToolStripMenuItem.Text = "Manage detain applications";
             this.manageDetainApplicationsToolStripMenuItem.Click += new System.EventHandler(this.manageDetainApplicationsToolStripMenuItem_Click);
             // 
             // detainLicenseToolStripMenuItem
             // 
             this.detainLicenseToolStripMenuItem.Name = "detainLicenseToolStripMenuItem";
-            this.detainLicenseToolStripMenuItem.Size = new System.Drawing.Size(277, 26);
+            this.detainLicenseToolStripMenuItem.Size = new System.Drawing.Size(348, 32);
             this.detainLicenseToolStripMenuItem.Text = "Detain license";
             this.detainLicenseToolStripMenuItem.Click += new System.EventHandler(this.detainLicenseToolStripMenuItem_Click);
             // 
             // relaseLicenseToolStripMenuItem
             // 
             this.relaseLicenseToolStripMenuItem.Name = "relaseLicenseToolStripMenuItem";
-            this.relaseLicenseToolStripMenuItem.Size = new System.Drawing.Size(277, 26);
+            this.relaseLicenseToolStripMenuItem.Size = new System.Drawing.Size(348, 32);
             this.relaseLicenseToolStripMenuItem.Text = "Relase license";
             this.relaseLicenseToolStripMenuItem.Click += new System.EventHandler(this.relaseLicenseToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(230, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(285, 6);
             // 
             // applicationTypesToolStripMenuItem
             // 
             this.applicationTypesToolStripMenuItem.Name = "applicationTypesToolStripMenuItem";
-            this.applicationTypesToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.applicationTypesToolStripMenuItem.Size = new System.Drawing.Size(288, 32);
             this.applicationTypesToolStripMenuItem.Text = "Applications types";
             this.applicationTypesToolStripMenuItem.Click += new System.EventHandler(this.applicationTypesToolStripMenuItem_Click);
             // 
             // licenseTestsTypesToolStripMenuItem
             // 
             this.licenseTestsTypesToolStripMenuItem.Name = "licenseTestsTypesToolStripMenuItem";
-            this.licenseTestsTypesToolStripMenuItem.Size = new System.Drawing.Size(233, 26);
+            this.licenseTestsTypesToolStripMenuItem.Size = new System.Drawing.Size(288, 32);
             this.licenseTestsTypesToolStripMenuItem.Text = "License tests Types";
             this.licenseTestsTypesToolStripMenuItem.Click += new System.EventHandler(this.licenseTestsTypesToolStripMenuItem_Click);
             // 
             // vecihleLicenseToolStripMenuItem
             // 
+            this.vecihleLicenseToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.vecihleLicenseToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("vecihleLicenseToolStripMenuItem.Image")));
             this.vecihleLicenseToolStripMenuItem.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.vecihleLicenseToolStripMenuItem.MergeIndex = 0;
             this.vecihleLicenseToolStripMenuItem.Name = "vecihleLicenseToolStripMenuItem";
-            this.vecihleLicenseToolStripMenuItem.Size = new System.Drawing.Size(169, 54);
+            this.vecihleLicenseToolStripMenuItem.Size = new System.Drawing.Size(209, 54);
             this.vecihleLicenseToolStripMenuItem.Text = "Vecihle license";
             this.vecihleLicenseToolStripMenuItem.Visible = false;
             // 
             // peopleMangmentToolStripMenuItem
             // 
+            this.peopleMangmentToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.peopleMangmentToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("peopleMangmentToolStripMenuItem.Image")));
             this.peopleMangmentToolStripMenuItem.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.peopleMangmentToolStripMenuItem.Name = "peopleMangmentToolStripMenuItem";
-            this.peopleMangmentToolStripMenuItem.Size = new System.Drawing.Size(194, 54);
+            this.peopleMangmentToolStripMenuItem.Size = new System.Drawing.Size(244, 54);
             this.peopleMangmentToolStripMenuItem.Text = "People Mangment";
             this.peopleMangmentToolStripMenuItem.Click += new System.EventHandler(this.peopleMangmentToolStripMenuItem_Click);
             // 
             // userMangmentToolStripMenuItem
             // 
+            this.userMangmentToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userMangmentToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("userMangmentToolStripMenuItem.Image")));
+            this.userMangmentToolStripMenuItem.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.userMangmentToolStripMenuItem.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.userMangmentToolStripMenuItem.Name = "userMangmentToolStripMenuItem";
-            this.userMangmentToolStripMenuItem.Size = new System.Drawing.Size(178, 54);
+            this.userMangmentToolStripMenuItem.Size = new System.Drawing.Size(223, 54);
             this.userMangmentToolStripMenuItem.Text = "User Mangment";
             this.userMangmentToolStripMenuItem.Click += new System.EventHandler(this.userMangmentToolStripMenuItem_Click);
             // 
@@ -265,30 +271,32 @@
             this.profileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewProfileToolStripMenuItem,
             this.editProfileToolStripMenuItem});
+            this.profileToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.profileToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("profileToolStripMenuItem.Image")));
             this.profileToolStripMenuItem.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.profileToolStripMenuItem.Name = "profileToolStripMenuItem";
-            this.profileToolStripMenuItem.Size = new System.Drawing.Size(116, 54);
+            this.profileToolStripMenuItem.Size = new System.Drawing.Size(135, 54);
             this.profileToolStripMenuItem.Text = "Profile";
             // 
             // viewProfileToolStripMenuItem
             // 
             this.viewProfileToolStripMenuItem.Name = "viewProfileToolStripMenuItem";
-            this.viewProfileToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            this.viewProfileToolStripMenuItem.Size = new System.Drawing.Size(207, 32);
             this.viewProfileToolStripMenuItem.Text = "View profile";
             this.viewProfileToolStripMenuItem.Click += new System.EventHandler(this.viewProfileToolStripMenuItem_Click);
             // 
             // editProfileToolStripMenuItem
             // 
             this.editProfileToolStripMenuItem.Name = "editProfileToolStripMenuItem";
-            this.editProfileToolStripMenuItem.Size = new System.Drawing.Size(172, 26);
+            this.editProfileToolStripMenuItem.Size = new System.Drawing.Size(207, 32);
             this.editProfileToolStripMenuItem.Text = "Edit Profile";
             this.editProfileToolStripMenuItem.Click += new System.EventHandler(this.editProfileToolStripMenuItem_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 10);
+            this.label2.Location = new System.Drawing.Point(23, 14);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(188, 27);
             this.label2.TabIndex = 1;
@@ -298,7 +306,8 @@
             // 
             this.lblicense.AutoSize = true;
             this.lblicense.Font = new System.Drawing.Font("Bowlby One SC", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblicense.Location = new System.Drawing.Point(168, 69);
+            this.lblicense.Location = new System.Drawing.Point(240, 95);
+            this.lblicense.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblicense.Name = "lblicense";
             this.lblicense.Size = new System.Drawing.Size(31, 36);
             this.lblicense.TabIndex = 2;
@@ -311,9 +320,10 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Font = new System.Drawing.Font("Bowlby One SC", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel1.Location = new System.Drawing.Point(104, 213);
+            this.panel1.Location = new System.Drawing.Point(47, 436);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(222, 113);
+            this.panel1.Size = new System.Drawing.Size(363, 155);
             this.panel1.TabIndex = 3;
             // 
             // panel2
@@ -323,16 +333,18 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Font = new System.Drawing.Font("Bowlby One SC", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel2.Location = new System.Drawing.Point(686, 213);
+            this.panel2.Location = new System.Drawing.Point(1099, 436);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(222, 113);
+            this.panel2.Size = new System.Drawing.Size(328, 155);
             this.panel2.TabIndex = 4;
             // 
             // lblDrivers
             // 
             this.lblDrivers.AutoSize = true;
             this.lblDrivers.Font = new System.Drawing.Font("Bowlby One SC", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDrivers.Location = new System.Drawing.Point(175, 69);
+            this.lblDrivers.Location = new System.Drawing.Point(250, 95);
+            this.lblDrivers.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDrivers.Name = "lblDrivers";
             this.lblDrivers.Size = new System.Drawing.Size(31, 36);
             this.lblDrivers.TabIndex = 2;
@@ -342,7 +354,8 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Bowlby One SC", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(18, 10);
+            this.label3.Location = new System.Drawing.Point(26, 14);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(143, 27);
             this.label3.TabIndex = 1;
@@ -356,15 +369,17 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Font = new System.Drawing.Font("Bowlby One SC", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel3.Location = new System.Drawing.Point(364, 213);
+            this.panel3.Location = new System.Drawing.Point(558, 436);
+            this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(260, 113);
+            this.panel3.Size = new System.Drawing.Size(348, 155);
             this.panel3.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(48, 37);
+            this.label1.Location = new System.Drawing.Point(69, 51);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(84, 27);
             this.label1.TabIndex = 3;
@@ -374,7 +389,8 @@
             // 
             this.lblilicense.AutoSize = true;
             this.lblilicense.Font = new System.Drawing.Font("Bowlby One SC", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblilicense.Location = new System.Drawing.Point(205, 69);
+            this.lblilicense.Location = new System.Drawing.Point(276, 95);
+            this.lblilicense.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblilicense.Name = "lblilicense";
             this.lblilicense.Size = new System.Drawing.Size(31, 36);
             this.lblilicense.TabIndex = 2;
@@ -383,7 +399,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(24, 10);
+            this.label5.Location = new System.Drawing.Point(34, 14);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(195, 27);
             this.label5.TabIndex = 1;
@@ -391,18 +408,21 @@
             // 
             // HomeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(1079, 499);
+            this.ClientSize = new System.Drawing.Size(1440, 636);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip);
+            this.Font = new System.Drawing.Font("Tahoma", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MainMenuStrip = this.menuStrip;
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "HomeForm";
             this.Text = "Home";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.panel1.ResumeLayout(false);

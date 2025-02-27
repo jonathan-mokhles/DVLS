@@ -11,7 +11,7 @@ namespace DataAccess
     public class CountriesDA
     {
 
-        public DataTable GetCountries()
+        public static  DataTable GetCountries()
         {
             string query = "SELECT * FROM Countries"; 
 
@@ -23,5 +23,6 @@ namespace DataAccess
                 return countries;
             }
         }
+
     }
 }

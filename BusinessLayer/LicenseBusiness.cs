@@ -13,60 +13,66 @@ namespace BusinessLayer
 {
     public class LicenseBusiness
     {
-        LicenseDA _licenseDA = new LicenseDA();
-        LocalLicenseApplicationBusiness _application = new LocalLicenseApplicationBusiness();
+        public static int CreateLicense(DrivingLicense license)
+        {
+            return LicenseDA.InsertLicense(license);
+        }
+        public static void UpdateLicense(int LicenseID, bool IsActive)
+        {
+            LicenseDA.UpdateLicense(LicenseID,IsActive);
+        }
+        public static void DeleteLicense(int licenseID)
+        {
+            LicenseDA.DeleteLicense(licenseID);
+        }
+        public static DrivingLicense GetLicenseByID(int licenseID)
+        {
+            DrivingLicense license = LicenseDA.GetLicenseByID(licenseID);
+            if (license != null)
+            {
+                license.Application = ApplicationBusiness.GetApplicationByID(license.Application.ID);
+                license.Class = DrivinglicenseClassesBuisness.GetClass(license.Class.ID);
+                license.CreatedByUser = UserBuisness.GetUser(license.CreatedByUser.UserId);
+            }
+            return license;
+        }
+        public static DataTable GetAllLicenses()
+        {
+            return LicenseDA.GetAllLicenses();
+        }
+        public static DrivingLicense GetLicenseByAppID(int appID)
+        {
+            LocalLicenseApplications localApp = LocalLicenseApplicationBusiness.GetLocalApplication(appID);
 
-        public int CreateLicense(DrivingLicense license)
-        {
-            return _licenseDA.InsertLicense(license);
-        }
-        public void UpdateLicense(int LicenseID, bool IsActive)
-        {
-            _licenseDA.UpdateLicense(LicenseID,IsActive);
-        }
-        public void DeleteLicense(int licenseID)
-        {
-            _licenseDA.DeleteLicense(licenseID);
-        }
-        public DrivingLicense GetLicenseByID(int licenseID)
-        {
-            return _licenseDA.GetLicenseByID(licenseID);
-        }
-        public DataTable GetAllLicenses()
-        {
-            return _licenseDA.GetAllLicenses();
-        }
-        public DataTable GetLicenseByAppID(int? appID = null, int? licenseID = null)
-        {
-            return _licenseDA.GetLicenseInfo(appID, licenseID);
+            DrivingLicense license =  LicenseDA.GetLicenseByAppID(localApp.ID);
+            license.setApp(localApp);
+            license.CreatedByUser = UserBuisness.GetUser(license.CreatedByUser.UserId);
+            return license;
         }
 
-        public int[] RenewLicense(DrivingLicense license) {
+        public static int[] RenewLicense(DrivingLicense license) {
 
-            _licenseDA.UpdateLicense(license.LicenseID, false);
+            LicenseDA.UpdateLicense(license.LicenseID, false);
 
 
             int[] IDs = new int[2];
+            LocalLicenseApplications localApp = new LocalLicenseApplications();
 
-            IDs[0] = _application.AddApp(new LocalLicenseApplications
-            {
-              
-               Application = new Applications
-               {
-                    PersonID = license.PersonID,
-                    Date = license.IssueDate,
-                    TypeID = 2,
-                    Status = ApplicationStatus.Completed,
-                    LastStatusDate = license.IssueDate,
-                    PaidFees = license.PaidFees,
-                    CreatedByUserId = GlobalSettings.CurrentUserID
-                },
-               classID = license.LicenseClassID
-            });
+            localApp.person.PersonID = license.Application.person.PersonID;
+            localApp.Date = license.IssueDate;
+            localApp.Type.ID = 2;
+            localApp.Status = ApplicationStatus.Completed;
+            localApp.LastStatusDate = license.IssueDate;
+            localApp.PaidFees = license.PaidFees;
+            localApp.CreatedByUser.UserId = GlobalSettings.CurrentUser.UserId;
+            localApp.Class.ID = license.Class.ID;
 
-            license.ApplicationID = IDs[0];
+            IDs[0] = LocalLicenseApplicationBusiness.AddApp(localApp);
 
-            IDs[1] = _licenseDA.InsertLicense(license);
+
+            license.Application.ID = IDs[0];
+
+            IDs[1] = LicenseDA.InsertLicense(license);
 
             return IDs;
         }

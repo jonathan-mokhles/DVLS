@@ -68,6 +68,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 26;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1103, 348);
             this.dataGridView1.TabIndex = 6;
             // 
@@ -79,26 +80,26 @@
             this.UpdateUser,
             this.DeleteUser});
             this.CMPeople.Name = "CMUser";
-            this.CMPeople.Size = new System.Drawing.Size(211, 104);
+            this.CMPeople.Size = new System.Drawing.Size(177, 76);
             // 
             // ViewUser
             // 
             this.ViewUser.Name = "ViewUser";
-            this.ViewUser.Size = new System.Drawing.Size(210, 24);
+            this.ViewUser.Size = new System.Drawing.Size(176, 24);
             this.ViewUser.Text = "View details";
             this.ViewUser.Click += new System.EventHandler(this.ViewPerson_Click);
             // 
             // UpdateUser
             // 
             this.UpdateUser.Name = "UpdateUser";
-            this.UpdateUser.Size = new System.Drawing.Size(210, 24);
+            this.UpdateUser.Size = new System.Drawing.Size(176, 24);
             this.UpdateUser.Text = "Update person";
             this.UpdateUser.Click += new System.EventHandler(this.UpdatePerson_Click);
             // 
             // DeleteUser
             // 
             this.DeleteUser.Name = "DeleteUser";
-            this.DeleteUser.Size = new System.Drawing.Size(210, 24);
+            this.DeleteUser.Size = new System.Drawing.Size(176, 24);
             this.DeleteUser.Text = "Delete person";
             this.DeleteUser.Click += new System.EventHandler(this.DeletePerson_Click);
             // 

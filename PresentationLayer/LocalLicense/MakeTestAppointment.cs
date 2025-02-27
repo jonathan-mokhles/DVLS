@@ -24,17 +24,16 @@ namespace DVLD
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            TestAppointmentBusiness test = new TestAppointmentBusiness();
             if (AppointmentID == -1)
             {
                 if(Trails == 0)
-                    test.CreateTestAppointment(GetAppointment());
+                    TestAppointmentBusiness.CreateTestAppointment(GetAppointment());
                 else
-                    test.CreateRetakeTestAppointment(GetAppointment(), Retake);
+                    TestAppointmentBusiness.CreateRetakeTestAppointment(GetAppointment(), Retake);
 
             }
             else
-                test.UpdateTestAppointment(GetAppointment());
+                TestAppointmentBusiness.UpdateTestAppointment(GetAppointment());
             MessageBox.Show("Added successfully");
             this.Close();
         }
@@ -42,8 +41,7 @@ namespace DVLD
         {
             if (Trails > 0)
             {
-                ApplicationTypesBuisness types = new ApplicationTypesBuisness();
-                Retake = (int)types.GetType(7).Fees;
+                Retake = (int)ApplicationTypesBuisness.GetType(7).Fees;
             }
         }
         private void SetForm()
@@ -73,7 +71,7 @@ namespace DVLD
                 LocalDrivingLicenseApplicationID = AppID,
                 AppointmentDate = dateTimePicker.Value,
                 PaidFees = Convert.ToDecimal(lblTfess.Text),
-                CreatedByUserID = GlobalSettings.CurrentUserID,
+                CreatedByUserID = GlobalSettings.CurrentUser.UserId,
                 TestResult = TestsResult.InProgress
             };
         }

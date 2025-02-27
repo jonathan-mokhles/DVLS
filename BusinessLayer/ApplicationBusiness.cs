@@ -9,28 +9,31 @@ namespace BusinessLayer
 {
     public class ApplicationBusiness
     {
-        ApplicationDA application = new ApplicationDA();
 
-        public DataTable GetAllApplication()
+        public static DataTable GetAllApplication()
         {
-           return application.GetAllApplications();
+           return ApplicationDA.GetAllApplications();
         }
-        public int AddApplication(Applications app)
+        public static int AddApplication(Applications app)
         {
-            return application.AddApplication(app);
+            return ApplicationDA.AddApplication(app);
         } 
-        public bool UpdateApplication(int ID, ApplicationStatus Status, DateTime LastStatusDate)
+        public static bool UpdateApplication(int ID, ApplicationStatus Status, DateTime LastStatusDate)
         {
-            return application.UpdateApplication(ID,Status,LastStatusDate);
+            return ApplicationDA.UpdateApplication(ID,Status,LastStatusDate);
         } 
-        public bool DeleteApplication(int app)
+        public static bool DeleteApplication(int app)
         {
-            return application.DeleteApplication(app);
+            return ApplicationDA.DeleteApplication(app);
         }
 
-        public Applications GetApplicationByID(int ID)
+        public static Applications GetApplicationByID(int ID)
         {
-            return application.GetApplication(ID);
+             Applications app =  ApplicationDA.GetApplication(ID);
+            app.person = PeopleBusiness.GetPerson(app.person.PersonID);
+            app.Type = ApplicationTypesBuisness.GetType(app.Type.ID);
+            app.CreatedByUser = UserBuisness.GetUser(app.CreatedByUser.UserId);
+            return app;
         }
 
 
