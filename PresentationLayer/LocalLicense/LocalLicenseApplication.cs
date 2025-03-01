@@ -19,7 +19,6 @@ namespace DVLD
             InitializeComponent();
             lblDate.Text = DateTime.Now.ToString();
             loadClasses();
-
         }
 
         public void loadClasses()
@@ -36,7 +35,7 @@ namespace DVLD
             _currentMode = FormMode.Add;
             this.personControl1.SetViewMode(null);
             SetControlsEnabled(true);
-            //lblFees.Text = _type.Fees.ToString();
+            lblFees.Text = ApplicationTypesBuisness.GetType(1).Fees.ToString();
             lblStatus.Text = ApplicationStatus.New.ToString();
             lblUser.Text = GlobalSettings.CurrentUser.UserName;
 

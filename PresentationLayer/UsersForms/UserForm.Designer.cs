@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.title = new System.Windows.Forms.Label();
-            this.userControl1 = new DVLD.UsersControl();
+            this.usersControl1 = new DVLD.UsersControl();
             this.SuspendLayout();
             // 
             // title
@@ -45,18 +45,18 @@
             this.title.TabIndex = 4;
             this.title.Text = "Add new preson";
             // 
-            // userControl1
-            //// 
-            this.userControl1.Location = new System.Drawing.Point(12, 23);
-            this.userControl1.Name = "userControl1";
-            this.userControl1.Size = new System.Drawing.Size(984, 481);
-            this.userControl1.TabIndex = 5;
+            // usersControl1
+            // 
+            this.usersControl1.Location = new System.Drawing.Point(15, 24);
+            this.usersControl1.Name = "usersControl1";
+            this.usersControl1.Size = new System.Drawing.Size(984, 515);
+            this.usersControl1.TabIndex = 5;
             // 
             // UserForm
             // 
             this.ClientSize = new System.Drawing.Size(1014, 516);
             this.Controls.Add(this.title);
-            //this.Controls.Add(this.userControl1);
+            this.Controls.Add(this.usersControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "UserForm";
             this.ResumeLayout(false);
@@ -68,6 +68,6 @@
 
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label title;
-        private UsersControl userControl1;
+        private UsersControl usersControl1;
     }
 }

@@ -28,15 +28,15 @@ namespace DVLD
             {
                 case FormMode.View:
                     this.title.Text = "User Details";
-                    this.userControl1.SetViewMode(personId);
+                    this.usersControl1.SetViewMode(personId);
                     break;
                 case FormMode.Add:
                     this.title.Text = "Add New User";
-                    this.userControl1.SetAddMode();
+                    this.usersControl1.SetAddMode();
                     break;
                 case FormMode.Update:
                     this.title.Text = "Update User";
-                    this.userControl1.SetUpdateMode(personId);
+                    this.usersControl1.SetUpdateMode(personId);
                     break;
             }
         }

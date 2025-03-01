@@ -75,6 +75,7 @@ namespace DVLD
             _person = PeopleBusiness.GetPerson(personId);
             LoadPerson();
             SetControlsEnabled(true);
+            this.TBNational.ReadOnly = true;
             _mode = FormMode.Update;
         }
 
@@ -182,7 +183,7 @@ namespace DVLD
                 errorProvider1.SetError(textBox, "This field is required.");
                 e.Cancel = true;
             }
-            else if (!PeopleBusiness.isUniqueNum(textBox.Text))
+            else if (!PeopleBusiness.isUniqueNum(textBox.Text) && _mode == FormMode.Add)
             {
                 errorProvider1.SetError(textBox, "National number must be unique.");
                 e.Cancel = true;
