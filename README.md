@@ -22,14 +22,7 @@ This system provides a user-friendly experience while ensuring compliance with d
 - **Database:** Microsoft SQL Server  
 - **ORM:** ADO.NET  
 
-## 📌 Installation
 
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/your-username/dvls.git
-2. Open the solution in Visual Studio.
-3. Configure the SQL Server database and update the connection string.
-4. Run the application.
 ## 📜 Version History
 
 ### **Version 1.2** (Latest)
@@ -45,10 +38,19 @@ This system provides a user-friendly experience while ensuring compliance with d
   - Fixed issues (like profile image).
 - **Improvements:**
   - Refactored and cleaned up the codebase for better readability and maintainability.
-
+  - 
 ### **Version 1.0**
 - Initial release of the Driving and Vehicle License System (DVLS).
 
+## 📌 Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/dvls.git
+2. Open the solution in Visual Studio.
+3. Configure the SQL Server database and update the connection string.
+4. Run the application.
+   
 ## 🤝 Contributing
 Contributions are welcome! Feel free to submit issues or pull requests.
 
