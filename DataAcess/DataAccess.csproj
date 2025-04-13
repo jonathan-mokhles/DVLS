@@ -55,6 +55,7 @@
     <Compile Include="TestAppointmentDA.cs" />
     <Compile Include="UserDA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserRolesDA.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj">

@@ -12,7 +12,7 @@ namespace Entity
         public int UserId { get; set; }
         public string UserName {  get; set; }
         public string Password {  get; set; }
-        public int Role {  get; set; }
+        public Roles Role {  get; set; }
         public bool IsActive {  get; set; }
 
         public User() { person = new People(); }

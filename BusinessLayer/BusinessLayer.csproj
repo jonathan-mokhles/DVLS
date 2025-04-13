@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationBusiness.cs" />
+    <Compile Include="RolesBuisness.cs" />
     <Compile Include="DetainedLicensesBusiness.cs" />
     <Compile Include="InternationalLicenseBusiness.cs" />
     <Compile Include="TestsTypesBuisness.cs" />

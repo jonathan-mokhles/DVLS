@@ -22,6 +22,14 @@ namespace DVLD
         public UsersControl()
         {
             InitializeComponent();
+            LoadRoles();
+        }
+
+        void LoadRoles()
+        {
+            cbRoles.DataSource = RolesBuisness.GetAllCountries();
+            cbRoles.DisplayMember = "RoleName";
+            cbRoles.ValueMember = "ID";
         }
 
         public void SetAddMode()
@@ -55,7 +63,6 @@ namespace DVLD
         }
 
 
-
         private void LoadUser(int userId)
         {
             var user = UserBuisness.GetUser(userId);
@@ -66,7 +73,9 @@ namespace DVLD
                 tbpassword.Text = user.Password;
                 tbConfirm.Text = user.Password; 
                 chbIsActive.Checked = user.IsActive;
-                personControl1.SetViewMode(user.person.NationalNo); 
+                cbRoles.SelectedValue = user.Role.Id;
+                personControl1.SetViewMode(user.person.NationalNo);
+                
             }
         }
 
@@ -84,8 +93,12 @@ namespace DVLD
             TBUserName.Enabled = enabled;
             tbpassword.Enabled = enabled;
             tbConfirm.Enabled = enabled;
-            chbIsActive.Enabled = enabled;
             panelFind.Enabled = enabled;
+            if ((GlobalSettings.CurrentUser.Role.Permissions & (int)Permissions.UserMangment) == (int)Permissions.UserMangment)
+            {
+                chbIsActive.Enabled = enabled;
+                cbRoles.Enabled = enabled;
+            }
         }
 
 
@@ -130,7 +143,7 @@ namespace DVLD
                 UserName = TBUserName.Text,
                 Password = tbpassword.Text,
                 IsActive = chbIsActive.Checked,
-                Role = 1 
+                Role = RolesBuisness.GetRole((int)cbRoles.SelectedValue)
             };
             return user;
         }

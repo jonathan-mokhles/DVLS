@@ -16,6 +16,11 @@ namespace BusinessLayer
         public User login(string username, string password)
         {
            User user =  UserDA.GetUserByUserNamePassword(username, password);
+            if (user != null)
+            {
+                user.person = PeopleBusiness.GetPerson(user.person.PersonID);
+                user.Role = UserRolesDA.GetRoleById(user.Role.Id);
+            }
             return user;
         }
         public static bool isUserExist(string No)
@@ -37,7 +42,11 @@ namespace BusinessLayer
         }
         public static User GetUser(int id) {
             User user = UserDA.GetUserByID(id);
-            user.person = PeopleBusiness.GetPerson(user.person.PersonID);
+            if (user != null)
+            {
+                user.person = PeopleBusiness.GetPerson(user.person.PersonID);
+                user.Role = UserRolesDA.GetRoleById(user.Role.Id);
+            }
             return user;
         }
     }

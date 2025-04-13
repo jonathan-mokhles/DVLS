@@ -33,6 +33,15 @@ namespace Entity
         InProgress
 
     }
+
+    public enum Permissions
+    {
+        PeopleMangment = 1,
+        UserMangment = 2,
+        LicenseMangment = 4,
+        TestMangment = 8
+
+    }
     public class GlobalSettings
     {
         public static User CurrentUser;

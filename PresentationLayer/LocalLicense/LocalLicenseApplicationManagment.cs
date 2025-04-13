@@ -9,6 +9,7 @@ using Entity;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Linq.Expressions;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DVLD
 {
@@ -17,7 +18,16 @@ namespace DVLD
         public LocalLicenseApplicationManagment()
         {
             InitializeComponent();
+            loadContexetMenu();
             this.dataGridView1.DataSource = LocalLicenseApplicationBusiness.GetAll();
+        }
+
+        void loadContexetMenu()
+        {
+            if((GlobalSettings.CurrentUser.Role.Permissions& (int)Permissions.TestMangment) == (int)Permissions.TestMangment)
+            {
+                this.dataGridView1.ContextMenuStrip = cmTest;
+            }
         }
 
         private void showApplicationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,8 +56,6 @@ namespace DVLD
             }
 
         }
-
-
 
         private void deleteApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -100,7 +108,7 @@ namespace DVLD
 
             }
         }
-        private void msIssueDrivingLicense_Click(object sender, EventArgs e)    
+        private void msIssueDrivingLicense_Click(object sender, EventArgs e)
         {
             IssueDriverLicensecs form = new IssueDriverLicensecs(Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value));
             form.ShowDialog();
@@ -123,45 +131,22 @@ namespace DVLD
 
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        private void cmLicenseOffice_Opening(object sender, CancelEventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 string Status = dataGridView1.SelectedRows[0].Cells[6].Value.ToString();
-                int passedTests = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[5].Value);
                 if (Status == "New")
                 {
-                    this.msScheduleTest.Enabled = true;
                     this.msDeleteApplication.Enabled = true;
                     this.msCancelApplication.Enabled = true;
                     this.msShowDrivingLicense.Enabled = false;
                     this.msEditApplication.Enabled = true;
                     this.msIssueDrivingLicense.Enabled = false;
 
-
-                    switch (passedTests)
-                    {
-                        case 0:
-                            this.msVisionTest.Enabled = true;
-                            break;
-                        case 1:
-                            this.msVisionTest.Enabled = false;
-                            this.msWrittenTest.Enabled = true;
-                            break;
-                        case 2:
-                            this.msWrittenTest.Enabled = false;
-                            this.msPracticalTest.Enabled = true;
-                            break;
-                        case 3:
-                            this.msIssueDrivingLicense.Enabled = true;
-                            this.msPracticalTest.Enabled = false;
-                            break;
-                    }
-
                 }
                 else if (Status == "Canceled")
                 {
-                    this.msScheduleTest.Enabled = false;
                     this.msDeleteApplication.Enabled = false;
                     this.msCancelApplication.Enabled = false;
                     this.msShowDrivingLicense.Enabled = false;
@@ -171,7 +156,6 @@ namespace DVLD
                 }
                 else if (Status == "Completed")
                 {
-                    this.msScheduleTest.Enabled = false;
                     this.msDeleteApplication.Enabled = false;
                     this.msCancelApplication.Enabled = false;
                     this.msShowDrivingLicense.Enabled = true;
@@ -182,5 +166,36 @@ namespace DVLD
 
         }
 
+        private void cmTest_Opening(object sender, CancelEventArgs e)
+        {
+            string Status = dataGridView1.SelectedRows[0].Cells[6].Value.ToString();
+            int passedTests = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[5].Value);
+
+
+            if (Status == "New")
+            {
+                this.msScheduleTest.Enabled = true;
+
+                switch (passedTests)
+                {
+                    case 0:
+                        this.msVisionTest.Enabled = true;
+                        break;
+                    case 1:
+                        this.msVisionTest.Enabled = false;
+                        this.msWrittenTest.Enabled = true;
+                        break;
+                    case 2:
+                        this.msWrittenTest.Enabled = false;
+                        this.msPracticalTest.Enabled = true;
+                        break;
+                    case 3:
+                        this.msIssueDrivingLicense.Enabled = true;
+                        this.msPracticalTest.Enabled = false;
+                        break;
+                }
+
+            }
+        }
     }
 }

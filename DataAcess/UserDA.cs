@@ -21,7 +21,7 @@ namespace DataAccess
                 cmd.Parameters.AddWithValue("@UserName", user.UserName);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
-                cmd.Parameters.AddWithValue("@Role", user.Role);
+                cmd.Parameters.AddWithValue("@Role", user.Role.Id);
 
                 conn.Open();
                 return Convert.ToInt32(cmd.ExecuteScalar());
@@ -53,7 +53,7 @@ namespace DataAccess
                 cmd.Parameters.AddWithValue("@UserName", user.UserName);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
-                cmd.Parameters.AddWithValue("@Role", user.Role);
+                cmd.Parameters.AddWithValue("@Role", user.Role.Id);
 
                 conn.Open();
                 return cmd.ExecuteNonQuery();
@@ -119,14 +119,17 @@ namespace DataAccess
                             UserName = (string)reader["UserName"],
                             Password = (string)reader["Password"],
                             UserId = (int)reader["UserID"],
-                            Role = (int)reader["Role"],
+                            Role = new Roles
+                            {
+                                Id = (int)reader["Role"],
+                            } ,
                             IsActive = (bool)reader["IsActive"],
                         };
                     }
                 }
             }
 
-            return new User { UserId = -1 };
+            return null;
         }
         public static User GetUserByUserNamePassword(string userName, string password)
         {
@@ -154,7 +157,10 @@ namespace DataAccess
                              UserName = (string)reader["UserName"],
                             Password = (string)reader["Password"],
                             UserId = (int)reader["UserID"],
-                            Role = (int)reader["Role"],
+                            Role = new Roles
+                            {
+                                Id = (int)reader["Role"],
+                            },
                             IsActive = (bool)reader["IsActive"],
                         };
                     }

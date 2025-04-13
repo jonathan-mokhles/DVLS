@@ -14,6 +14,7 @@ namespace DVLD
 {
     public partial class LoginForm : Form
     {
+        private HomeForm homeForm = null;
         public LoginForm()
         {
             InitializeComponent();
@@ -35,16 +36,23 @@ namespace DVLD
             else
             {
                 GlobalSettings.CurrentUser = user;
-                HomeForm form = new HomeForm();
+                if (homeForm == null || homeForm.IsDisposed)
+                {
+                    homeForm = new HomeForm();
+                    homeForm.FormClosed += (s, args) => this.Close();
+                }
+
+                homeForm.Show(this);
                 this.Hide();
-                form.FormClosed += (s, args) => Application.Exit();
-                form.ShowDialog();
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            if(homeForm != null)
+                homeForm.Close();
             this.Close();
+
         }
     }
 }

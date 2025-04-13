@@ -13,9 +13,23 @@ namespace DVLD
             numCountriesAsync(100,this.lblDrivers);
             numCountriesAsync(100,this.lblicense);
             numCountriesAsync(1000,this.lblilicense);
+            Load();
 
         }
+        void Load()
+        {
+            this.userMangmentToolStripMenuItem.Enabled = (GlobalSettings.CurrentUser.Role.Permissions & (int)Permissions.UserMangment) == (int)Permissions.UserMangment;
+            this.peopleMangmentToolStripMenuItem.Enabled = (GlobalSettings.CurrentUser.Role.Permissions & (int)Permissions.PeopleMangment) == (int)Permissions.PeopleMangment;
+            bool LicensePermissions = (GlobalSettings.CurrentUser.Role.Permissions & (int)Permissions.LicenseMangment) == (int)Permissions.LicenseMangment;
+            
+            servicesToolStripMenuItem.Enabled = LicensePermissions;
+            detainLicensesToolStripMenuItem.Enabled = LicensePermissions;
+            applicationTypesToolStripMenuItem.Enabled = LicensePermissions;
+            licenseTestsTypesToolStripMenuItem.Enabled = LicensePermissions;
+            internationalLicenseToolStripMenuItem.Enabled = LicensePermissions;
 
+            
+        }
         private void numCountriesAsync(int n,Label label)
         {
             int currentNumber = 0; // Start counting from 0
@@ -43,15 +57,18 @@ namespace DVLD
 
         private void userMangmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserMangment userMangment = new UserMangment();
-            userMangment.ShowDialog();
-           
+
+                UserMangment userMangment = new UserMangment();
+                userMangment.ShowDialog();
+ 
         }
 
         private void peopleMangmentToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           PeopleMangment form = new PeopleMangment();
-            form.ShowDialog();
+
+                PeopleMangment form = new PeopleMangment();
+                form.ShowDialog();
+
         }
 
         private void viewProfileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -100,12 +117,6 @@ namespace DVLD
             form.ShowDialog();
         }
 
-        private void internationalLicenseToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            InternationalLicenseMangmentcs form = new InternationalLicenseMangmentcs();
-            form.ShowDialog();
-        }
-
         private void renewLicenceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RenewLicense form = new RenewLicense();
@@ -135,5 +146,20 @@ namespace DVLD
             DetainedLicensesManagment form = new DetainedLicensesManagment();
             form.ShowDialog();
         }
+
+        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GlobalSettings.CurrentUser = null;
+
+            var loginForm = this.Owner as LoginForm;
+            if (loginForm != null)
+            {
+                loginForm.Show();
+                this.Hide();
+            }
+
+        }
+
+
     }
 }
