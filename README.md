@@ -32,7 +32,15 @@ This system provides a user-friendly experience while ensuring compliance with d
 4. Run the application.
 ## 📜 Version History
 
-### **Version 1.1** (Latest)
+### **Version 1.2** (Latest)
+- **Roles & Permissions:** Introduced role-based access control with three defined roles:
+  - **Administrator**: Full access to all system features.
+  - **License Officer**: Similar to Administrator, but restricted from user management (e.g., add/edit/delete users) and editing application types (e.g., title, fees).
+  - **Testing Officer**: Can schedule tests, manage test appointments, and submit test results.
+- **Logout Functionality:**
+   -  Added a Logout button to allow users to switch accounts without needing to close and restart the application.
+    
+### **Version 1.1**
 - **Bug Fixes:**
   - Fixed issues (like profile image).
 - **Improvements:**
