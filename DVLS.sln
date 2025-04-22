@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{283974D2-C0E1-40E7-B2F1-8E1D4ECD61F6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ER Daigram", "ER Daigram", "{FFCAE5E3-11BB-4F3B-946F-9E65C332E32B}"
+	ProjectSection(SolutionItems) = preProject
+		ER Daigram.pdf = ER Daigram.pdf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
